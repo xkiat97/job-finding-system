@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "List Employee's skill";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+    <style>
+        .table tr:hover td {
+            background-color: #999;
+            cursor: default;
+            font-weight: bold;
+        }
+    </style>
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var table = $('#dataTable').DataTable();
+    });
+</script>
+<div class="forms">
+    <h2 class="title1">@ViewBag.Title</h2>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <table id="dataTable" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Job category</th>
+                        <th>Skill name</th>
+                        <th>Skill description</th>
+                        <th>Proficiency</th>
+                        <th>Employee</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Skill skill in ViewBag.skills)
+                    {
+                        <tr>
+                            <td>@skill.JobCategory.name</td>
+                            <td>@skill.name</td>
+                            <td>@skill.desc</td>
+                            <td>@skill.proficiency</td>
+                            <td>@skill.User.userName</td>
+                            <td>@skill.status</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Job category</th>
+                        <th>Skill name</th>
+                        <th>Skill description</th>
+                        <th>Proficiency</th>
+                        <th>Employee</th>
+                        <th>Status</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+@section footer {
+}

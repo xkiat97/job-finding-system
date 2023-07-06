@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "Pricing";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+    var settings = ViewBag.settings;
+}
+
+@section subNav {
+    <ol class="breadcrumb justify-content-left">
+        <li class="breadcrumb-item">
+            <a href="index">Home</a>
+        </li>
+        <li class="breadcrumb-item active">@ViewBag.Title</li>
+    </ol>
+}
+
+<!-- plans -->
+<section class="banner-bottom-wthree bg-light py-lg-5 py-3">
+    <div class="container">
+        <!---728x90--->
+        <div class="inner-sec-w3ls py-md-5 py-3">
+            <div class="card-deck text-center row ">
+                @foreach (Setting setting in settings)
+                {
+                    if (setting.type == "accountSubscribe")
+                    {
+                        <div class="price-info-grid col-lg-3">
+                            <div class="price-inner">
+                                <div class="price-header">
+                                    <h4>@setting.settingStringShort</h4>
+                                </div>
+                                <div class="price-body">
+                                    <p class="p-dis text-left my-4">
+                                        @setting.settingStringLong
+                                        <br><br>
+                                        Login to view details.
+                                    </p>
+                                    <a href="#" class="btn btn-block btn-outline-primary py-2" data-toggle="modal" data-target="#exampleModalCenter2">
+                                        <i class="far fa-user"></i> Get Started
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+
+            </div>
+
+            <div class="card-deck text-center row ">
+                @foreach (Setting setting in settings)
+                {
+                    if (setting.type == "postFee")
+                    {
+                        <div class="price-info-grid col-lg-3">
+                            <div class="price-inner">
+                                <div class="price-header">
+                                    <h4>@setting.settingStringShort</h4>
+                                </div>
+                                <div class="price-body">
+                                    <p class="p-dis text-left my-4">
+                                        @setting.settingStringLong
+                                        <br><br>
+                                        Login to view details.
+                                    </p>
+                                    <a href="#" class="btn btn-block btn-outline-primary py-2" data-toggle="modal" data-target="#exampleModalCenter2">
+                                        <i class="far fa-user"></i> Get Started
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- //plans2 -->

@@ -1,0 +1,120 @@
+﻿@model JobFindingSystem.Models.AddPostFeeVM
+@{
+    ViewBag.Title = "Purchase posting package";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    Post post = ViewBag.posts;
+    string imgUrl = post.jobImage ?? "../upload.png";
+    DateTime postedDate = post.postedDate ?? DateTime.Now;
+}
+@section header {
+}
+<div class="forms">
+    <h2 class="title1">@ViewBag.Title</h2>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <h4>Posting package</h4>
+        </div>
+        @*Display post details*@
+        <div class="form-body">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="row">
+                        <div class="col-sm-2"></div>
+                        <img src="~/Photo/Post/@imgUrl" width="250" height="200" id="prev">
+                        <div class="col-sm-4">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="row">
+                        <strong class="col-sm-3">Job Title</strong>
+                        <div class="col-sm-7">@post.jobTitle</div>
+                        <div class="col-sm-2"></div>
+                    </div>
+
+                    <div class="row">
+                        <strong class="col-sm-3">Job Description</strong>
+                        <div class="col-sm-7">@post.jobDesc</div>
+                        <div class="col-sm-2"></div>
+                    </div>
+
+                    <div class="row">
+                        <strong class="col-sm-3">Job Category</strong>
+                        <div class="col-sm-7">@post.JobCategory.name</div>
+                        <div class="col-sm-2"></div>
+                    </div>
+
+                    <div class="row">
+                        <strong class="col-sm-3">Address</strong>
+                        <div class="col-sm-7">@post.workingAddress</div>
+                        <div class="col-sm-2"></div>
+                    </div>
+
+                    <div class="row">
+                        <strong class="col-sm-3">Working Date</strong>
+                        <div class="col-sm-7">@post.workingDate.Value.ToString("dd-MMMM-yyyy")</div>
+                        <div class="col-sm-2"></div>
+                    </div>
+
+                    <div class="row">
+                        <strong class="col-sm-3">Posting Date</strong>
+                        <div class="col-sm-7">@postedDate.ToString("dd-MMMM-yyyy hh:mm tt")</div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10">
+                        <a href="~/Employer/UpdatePost?postID=@post.postID" class="btn-lg btn-success pull-right">Edit</a>
+                    </div>
+                </div>
+            </div>
+
+
+            @*Selection*@
+            <div class="form-body">
+                <div class="alert-success" role="alert">
+                    <div class="@TempData["color"]" style="text-align: center; font-weight:bold; font-size:20px; margin-bottom:10px">@TempData["info"]</div>
+                </div>
+                <form method="post" enctype="multipart/form-data" class="form-horizontal">
+                    <h3>Select your posting package: </h3>
+                    <br>
+                    @Html.HiddenFor(m => m.postID)
+                    <table id="dataTable" class="table table-hover table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Posting package</th>
+                                <th>Duration</th>
+                                <th>Price</th>
+                                <th>Selection</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{string chkValue = "Checked"; }
+                            @foreach (Setting package in ViewBag.packages)
+                            {
+                                <tr>
+                                    <td>@package.settingStringShort</td>
+                                    <td>@package.settingStringInt Day(s)</td>
+                                    <td>RM @package.settingStringDouble</td>
+                                    <td>@Html.RadioButtonFor(m => m.packageID, package.settingID, new { @checked = chkValue })</td>
+                                </tr>
+                                chkValue = "";
+                            }
+                        </tbody>
+                    </table>
+                    <div class="col-sm-8"></div>
+                    <div class="col-sm-4">
+                        <button class="btn btn-default" data-url="/Employer/CurrentPost">Back to Profile</button>
+                        <button class="btn btn-primary">Make Payment</button>
+                    </div>
+                    <br>
+                </form>
+            </div>
+        </div>
+</div>
+@section footer {
+
+
+}

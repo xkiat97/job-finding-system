@@ -1,0 +1,54 @@
+﻿@model JobFindingSystem.Models.UserRegisterVM
+
+<form action="../Account/Register" method="post">
+    <div class="form-group">
+        @Html.LabelFor(m => m.email, new { Class = "control-label" })
+        @Html.TextBoxFor(m => m.email, new { maxlength = 50, required = "", autofocus = "", Class = "form-control", placeholder = "Enter your email" })
+        @Html.ValidationMessageFor(m => m.email, "", new { Class = "alert-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.password, new { Class = "control-label" })
+        @Html.TextBoxFor(m => m.password, new { type = "password", maxlength = 20, required = "", Class = "form-control", placeholder = "Enter your password" })
+        @Html.ValidationMessageFor(m => m.password, "", new { Class = "alert-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.confirm, new { Class = "control-label" })
+        @Html.TextBoxFor(m => m.confirm, new { type = "password", maxlength = 20, required = "", Class = "form-control", placeholder = "Enter your confirm password" })
+        @Html.ValidationMessageFor(m => m.confirm, "", new { Class = "alert-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.role, new { Class = "control-label" })
+        <label class="form-control">
+            <div class="radio-inline">
+                <label>@Html.RadioButtonFor(m => m.role, "Employer") Employer</label>
+            </div>
+            <div class="radio-inline">
+                <label> @Html.RadioButtonFor(m => m.role, "Employee") Employee</label>
+            </div>
+        </label>
+        @Html.ValidationMessageFor(m => m.role, "", new { Class = "alert-danger" })
+    </div>
+
+    <div class="form-group">
+        <div class="g-recaptcha" data-sitekey="6Lexo4kUAAAAAMc4sXOOlSWxhmJWFjVh_KLplxLF"></div>
+        @if (ViewBag.Message == "Please verify the reCaptcha.")
+        {
+            <div class="form-control">
+                <span class="danger">
+                    @ViewBag.Message
+                </span>
+            </div>
+        }
+
+    </div>
+
+
+    <button type="submit" class="btn btn-primary submit mb-4">Register</button>
+    <p class="text-center pb-4">
+        By clicking Register, I agree to your terms
+    </p>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+</form>

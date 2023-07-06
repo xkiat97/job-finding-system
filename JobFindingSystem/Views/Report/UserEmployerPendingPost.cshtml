@@ -1,0 +1,73 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        });
+    });
+</script>
+<div class="forms">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <h2 class="aligncenter">@ViewBag.Title </h2>
+                <h4 class="aligncenter">@ViewBag.subtitle</h4>
+            </div>
+            <div class="col-sm-3">
+                <i class="pull-right"><strong>Generated on: </strong> @DateTime.Today.ToShortDateString()</i>
+            </div>
+        </div>
+    </div>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <table id="dataTable" class="table table-hover table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Employer name</th>
+                        <th>Posted on</th>
+                        <th>Expired on</th>
+                        <th>Total posting duration</th>
+                        <th>Total current Bider</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Post item in ViewBag.rpt)
+                    {
+                        <tr>
+                            <td>@item.User.userName</td>
+                            <td>@item.postedDate</td>
+                            <td>@item.postExpired</td>
+                            <td>@item.PostFees.Sum(x => x.durationDay) Days</td>
+                            <td>@item.RequestedLists.Count()</td>
+                            <td>@item.status</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Employer name</th>
+                        <th>Posted on</th>
+                        <th>Expired on</th>
+                        <th>Total posting duration</th>
+                        <th>Total current Bider</th>
+                        <th>Status</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+@section footer {
+
+
+}

@@ -1,0 +1,366 @@
+﻿@model JobFindingSystem.Models.JobRatingVM
+@{
+    ViewBag.Title = "Employee working detail";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    Post post = ViewBag.post;
+    RequestedList rqst = ViewBag.requestedList;
+    string imgUrl = post.jobImage ?? "../upload.png";
+    string imgUrlUSER = rqst.User.image ?? "../upload.png";
+    bool isStarted = false;
+    string workingStatus = "Pending";
+    string date = "";
+    string wage = "-";
+    string hour = "-";
+    if (post.workingTotalWage != null && post.workingDuration != null)
+    {
+        wage = "RM " + post.workingTotalWage.Value.ToString("0.00");
+        hour = post.workingDuration.Value.ToString("0.00") + " hr(s)";
+    }
+
+}
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+    <style>
+        .star-rating {
+            font-size: 0;
+            white-space: nowrap;
+            display: inline-block;
+            /* width: 250px; remove this */
+            height: 50px;
+            overflow: hidden;
+            position: relative;
+            background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjREREREREIiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
+            background-size: contain;
+        }
+
+            .star-rating i {
+                opacity: 0;
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                /* width: 20%; remove this */
+                z-index: 1;
+                background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjRkZERjg4IiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
+                background-size: contain;
+            }
+
+            .star-rating input {
+                -moz-appearance: none;
+                -webkit-appearance: none;
+                opacity: 0;
+                display: inline-block;
+                /* width: 20%; remove this */
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                z-index: 2;
+                position: relative;
+            }
+
+                .star-rating input:hover + i,
+                .star-rating input:checked + i {
+                    opacity: 1;
+                }
+
+            .star-rating i ~ i {
+                width: 40%;
+            }
+
+                .star-rating i ~ i ~ i {
+                    width: 60%;
+                }
+
+                    .star-rating i ~ i ~ i ~ i {
+                        width: 80%;
+                    }
+
+                        .star-rating i ~ i ~ i ~ i ~ i {
+                            width: 100%;
+                        }
+
+        ::after,
+        ::before {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .star-rating.star-5 {
+            width: 250px;
+        }
+
+            .star-rating.star-5 input,
+            .star-rating.star-5 i {
+                width: 20%;
+            }
+
+                .star-rating.star-5 i ~ i {
+                    width: 40%;
+                }
+
+                    .star-rating.star-5 i ~ i ~ i {
+                        width: 60%;
+                    }
+
+                        .star-rating.star-5 i ~ i ~ i ~ i {
+                            width: 80%;
+                        }
+
+                            .star-rating.star-5 i ~ i ~ i ~ i ~ i {
+                                width: 100%;
+                            }
+    </style>
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "lengthMenu": [[5, 25, -1], [5, 25, "All"]]
+        });
+    });
+</script>
+<div class="forms">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="title1">@ViewBag.Title</h2>
+        </div>
+    </div>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms" style="background-color: #F1F1F1; border: none; box-shadow: none">
+        <div class="row col-md-12 widget-shadow">
+            <div class="row">
+                <div class="col-md-4">
+                    <br />
+                    <div class="row">
+                        <h4>Employee detail</h4>
+                    </div>
+                    <div class="row">
+                        <img src="~/Photo/Profile/@imgUrlUSER" width="250" height="250" class="img-circle center-block">
+                    </div>
+                    <div class="row">
+                        <strong class="col-lg-4">Name </strong>
+                        <div class="col-lg-8">@rqst.status</div>
+                    </div>
+                    <div class="row">
+                        <strong class="col-lg-4">Contact </strong>
+                        <div class="col-lg-8">@rqst.User.phone</div>
+                    </div>
+                    <div class="row">
+                        <strong class="col-lg-4">Email </strong>
+                        <div class="col-lg-8">@rqst.User.email</div>
+                    </div>
+                    <div class="row">
+                        @{
+                            double sumRate = rqst.User.Ratings.Sum(x => x.nOfFive);
+                            double countRate = rqst.User.Ratings.Count() * 5;
+                            double employeeRate = (sumRate / countRate) * 5;
+
+                            string rate = employeeRate.ToString("0");
+
+                        }
+                        <strong class="col-lg-4">Rating</strong>
+                        <div class="col-lg-8">
+                            <p>
+                                @for (int i = 1; i <= int.Parse(rate); i++)
+                                {
+                                    <span class="float-right"><i class="text-warning fa fa-star"></i></span>
+                                }
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <strong class="col-lg-4">Wage/Hr</strong>
+                        <div class="col-lg-8">RM @rqst.wage</div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <br>
+                    <div class="row">
+                        <br>
+                        <div class="row">
+                            <h4>Job Information</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src="~/Photo/Post/@imgUrl" width="150" height="150" class="img-thumbnail">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h4>@post.jobTitle</h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="glyphicon glyphicon-map-marker"></div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div>@post.workingAddress</div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="glyphicon glyphicon-calendar"></div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        @post.workingDate.Value.ToString("dd-MMMM-yyyy")
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="row">
+                                    <h6 style="color:#a6a6a6;">Posted on @post.postedDate</h6>
+                                </div>
+                                <div class="row">
+                                    <div class="glyphicon glyphicon-briefcase"> @post.JobCategory.name</div>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+
+                        <div class="row">
+                            <h4>Working time detail</h4>
+                        </div>
+                        <div class="row">
+                            <strong class="col-lg-4">Working status</strong>
+                            @if (post.workingStart != null && post.workingEnd == null)
+                            {
+                                //it is started but no yet end
+                                isStarted = true;
+                                workingStatus = "Job is started";
+                            }
+                            <div class="col-lg-8">@workingStatus</div>
+                        </div>
+                        <div class="row">
+                            <strong class="col-lg-4">Start at </strong>
+                            <div class="col-lg-8">@post.workingStart</div>
+                        </div>
+                        <div class="row">
+                            <strong class="col-lg-4">End at </strong>
+                            <div class="col-lg-8">@post.workingEnd</div>
+                        </div>
+                        <div class="row">
+                            <strong class="col-lg-4">Duration (hour) </strong>
+                            <div class="col-lg-8" id="time-elapsed"> - </div>
+                        </div>
+                        <div class="row">
+                            <strong class="col-lg-4">Total duration (hour) </strong>
+                            <div class="col-lg-8">@hour</div>
+                        </div>
+                        <div class="row">
+                            <strong class="col-lg-4">Total wage (MYR) </strong>
+                            <div class="col-lg-8">@wage</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3"></div>
+                            <div class="col-lg-3">
+                            </div>
+                            <div class="col-lg-3">
+                                @if (isStarted)
+                                {
+                                    <a href="~/Employer/WorkingStatusUpdate?postID=@rqst.requestedPostID&employeeID=@rqst.requestedEmployeeID" class="btn btn-danger">Stop work</a>
+                                }
+                                else
+                                {
+                                    <a href="~/Employer/WorkingStatusUpdate?postID=@rqst.requestedPostID&employeeID=@rqst.requestedEmployeeID" class="btn btn-primary">Start work</a>
+                                }
+                            </div>
+                            <div class="col-lg-3">
+                                @if (!isStarted)
+                                {
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalJobRating">Pay it</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if (isStarted)
+{
+    date = post.workingStart.Value.ToString("yyyy-MM-ddTHH:mm:ss");
+}
+
+@* MODAL RATING *@
+<div class="modal fade" id="modalJobRating" tabindex="-1" role="dialog" aria-labelledby="Post Report">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title" id="exampleModalLabel">Please rate for "@rqst.User.userName" ?</h3>
+                <i style="color:red;">NOTE: Your are pleased to write comment, you will remain anonymous.</i>
+            </div>
+            <form method="post">
+                @Html.HiddenFor(m => m.postedID)
+                @Html.HiddenFor(m => m.employeeID)
+                <div class="modal-body">
+                    <div class="row">
+                        <h3 class="aligncenter">Total Wage:</h3>
+                        <h1 class="aligncenter">@wage</h1>
+                    </div>
+                    @Html.HiddenFor(m => m.postedID)
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.OutOfFiveRate, new { Class = "control-label" })
+                            <div class="row">
+                                <span class="star-rating star-5">
+                                    @Html.RadioButtonFor(m => m.OutOfFiveRate, 1, new { type = "radio" })<i></i>
+                                    @Html.RadioButtonFor(m => m.OutOfFiveRate, 2, new { type = "radio" })<i></i>
+                                    @Html.RadioButtonFor(m => m.OutOfFiveRate, 3, new { type = "radio" })<i></i>
+                                    @Html.RadioButtonFor(m => m.OutOfFiveRate, 4, new { type = "radio" })<i></i>
+                                    @Html.RadioButtonFor(m => m.OutOfFiveRate, 5, new { type = "radio" })<i></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.comment, new { Class = "control-label" })
+                            @Html.TextAreaFor(m => m.comment, new { maxlength = 500, Class = "form-control1", placeholder = "Enter your comments" })
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section footer{
+    <script>
+    var startDateTime = new Date("@date"); // YYYY (M-1) D H m s ms (start time and date from DB)
+    var startStamp = startDateTime.getTime();
+
+    var newDate = new Date();
+    var newStamp = newDate.getTime();
+
+    var timer; // for storing the interval (to stop or pause later if needed)
+
+    function updateClock() {
+        newDate = new Date();
+        newStamp = newDate.getTime();
+        var diff = Math.round((newStamp - startStamp) / 1000);
+
+        var d = Math.floor(diff / (24 * 60 * 60)); /* though I hope she won't be working for consecutive days :) */
+        diff = diff - (d * 24 * 60 * 60);
+        var h = Math.floor(diff / (60 * 60));
+        diff = diff - (h * 60 * 60);
+        var m = Math.floor(diff / (60));
+        diff = diff - (m * 60);
+        var s = diff;
+        
+        document.getElementById("time-elapsed").innerHTML = d + " day(s), " + h + " hour(s), " + m + " minute(s), " + s + " second(s)";
+    }
+
+    timer = setInterval(updateClock, 1000);
+    </script>
+
+}

@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "Subscribe Fee";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    var posts = ViewBag.posts;
+}
+
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+    <style>
+        .table tr:hover td {
+            background-color: #999;
+            cursor: default;
+            font-weight: bold;
+        }
+    </style>
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var table = $('#dataTable').DataTable();
+    });
+</script>
+
+<div class="forms">
+    <h2 class="title1">@ViewBag.Title</h2>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+
+            <div class="@TempData["color"]" style="text-align: center; font-weight:bold; font-size:20px; margin-bottom:10px">@TempData["info"]</div>
+
+            <table id="dataTable" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Payment Date</th>
+                        <th>Employee name</th>
+                        <th>Package name</th>
+                        <th>Duration</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (AccountFee item in ViewBag.rpt)
+                    {
+                        List<Setting> s = ViewBag.pkg;
+                        string pkgName = s.SingleOrDefault(x => x.settingStringInt == item.durationDay).settingStringShort;
+                        <tr>
+                            <td>@item.paymentDate</td>
+                            <td>@item.User.userName</td>
+                            <td>@pkgName</td>
+                            <td>@item.durationDay Days</td>
+                            <td>RM @item.fee</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Payment Date</th>
+                        <th>Employee name</th>
+                        <th>Package name</th>
+                        <th>Duration</th>
+                        <th>Amount</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section footer {
+
+
+}

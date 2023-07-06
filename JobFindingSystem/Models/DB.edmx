@@ -1,0 +1,1096 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AccountFee">
+          <Key>
+            <PropertyRef Name="accountFeeID" />
+          </Key>
+          <Property Name="accountFeeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="paymentDate" Type="datetime" Nullable="false" />
+          <Property Name="durationDay" Type="int" Nullable="false" />
+          <Property Name="fee" Type="float" Nullable="false" />
+          <Property Name="employeeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Conversation">
+          <Key>
+            <PropertyRef Name="converID" />
+          </Key>
+          <Property Name="converID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="senderID" Type="int" Nullable="false" />
+          <Property Name="receiverID" Type="int" Nullable="false" />
+          <Property Name="message" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="status" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="createAt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="email" />
+          </Key>
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="nric" Type="varchar" MaxLength="15" />
+          <Property Name="dateOfBirth" Type="datetime" />
+          <Property Name="gender" Type="char" MaxLength="1" />
+          <Property Name="intro" Type="varchar" MaxLength="300" />
+          <Property Name="resumeURL" Type="varchar" MaxLength="50" />
+          <Property Name="expiredOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="JobCategory">
+          <Key>
+            <PropertyRef Name="jobID" />
+          </Key>
+          <Property Name="jobID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="desc" Type="varchar" MaxLength="250" />
+          <Property Name="status" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="paymentID" />
+          </Key>
+          <Property Name="paymentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="paymentDate" Type="datetime" Nullable="false" />
+          <Property Name="amount" Type="float" Nullable="false" />
+          <Property Name="payFor" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="payForID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="postID" />
+          </Key>
+          <Property Name="postID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="jobTitle" Type="varchar" MaxLength="50" />
+          <Property Name="jobDesc" Type="varchar" MaxLength="500" />
+          <Property Name="jobImage" Type="varchar" MaxLength="50" />
+          <Property Name="wage" Type="float" />
+          <Property Name="postedDate" Type="datetime" />
+          <Property Name="postExpired" Type="datetime" />
+          <Property Name="workingAddress" Type="varchar" MaxLength="250" />
+          <Property Name="workingDate" Type="datetime" />
+          <Property Name="workingStart" Type="datetime" />
+          <Property Name="workingEnd" Type="datetime" />
+          <Property Name="workingDuration" Type="float" />
+          <Property Name="workingTotalWage" Type="float" />
+          <Property Name="status" Type="varchar" MaxLength="20" />
+          <Property Name="modifiedDate" Type="datetime" />
+          <Property Name="jobCategoryID" Type="int" />
+          <Property Name="employerID" Type="int" />
+        </EntityType>
+        <EntityType Name="PostFee">
+          <Key>
+            <PropertyRef Name="postfeeID" />
+          </Key>
+          <Property Name="postfeeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="paymentDate" Type="datetime" />
+          <Property Name="durationDay" Type="int" />
+          <Property Name="fee" Type="float" />
+          <Property Name="postID" Type="int" />
+        </EntityType>
+        <EntityType Name="PostReport">
+          <Key>
+            <PropertyRef Name="reportByEmployee" />
+            <PropertyRef Name="reportedPost" />
+          </Key>
+          <Property Name="reportDate" Type="datetime" Nullable="false" />
+          <Property Name="reportType" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="comment" Type="varchar" MaxLength="500" />
+          <Property Name="reportByEmployee" Type="int" Nullable="false" />
+          <Property Name="reportedPost" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="ratingID" />
+          </Key>
+          <Property Name="ratingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nOfFive" Type="int" Nullable="false" />
+          <Property Name="comment" Type="varchar" MaxLength="500" />
+          <Property Name="ratingDate" Type="datetime" Nullable="false" />
+          <Property Name="postID" Type="int" Nullable="false" />
+          <Property Name="userID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RequestedList">
+          <Key>
+            <PropertyRef Name="requestedPostID" />
+            <PropertyRef Name="requestedEmployeeID" />
+          </Key>
+          <Property Name="requestedPostID" Type="int" Nullable="false" />
+          <Property Name="requestedEmployeeID" Type="int" Nullable="false" />
+          <Property Name="wage" Type="float" Nullable="false" />
+          <Property Name="requestedDate" Type="datetime" Nullable="false" />
+          <Property Name="confirmedDate" Type="datetime" />
+          <Property Name="status" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="settingID" />
+          </Key>
+          <Property Name="settingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="50" />
+          <Property Name="settingStringLong" Type="varchar" MaxLength="500" />
+          <Property Name="settingStringShort" Type="varchar" MaxLength="50" />
+          <Property Name="settingStringDouble" Type="float" />
+          <Property Name="settingStringInt" Type="int" />
+          <Property Name="type" Type="varchar" MaxLength="20" />
+          <Property Name="status" Type="varchar" MaxLength="20" />
+          <Property Name="modifiedDate" Type="datetime" />
+          <Property Name="modifiedByUser" Type="int" />
+        </EntityType>
+        <EntityType Name="Skill">
+          <Key>
+            <PropertyRef Name="skillID" />
+          </Key>
+          <Property Name="skillID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="desc" Type="varchar" MaxLength="300" />
+          <Property Name="proficiency" Type="varchar" MaxLength="15" />
+          <Property Name="status" Type="varchar" MaxLength="20" />
+          <Property Name="modifiedDate" Type="datetime" />
+          <Property Name="employeeID" Type="int" Nullable="false" />
+          <Property Name="jobCategoryID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userName" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="phone" Type="varchar" MaxLength="20" />
+          <Property Name="image" Type="varchar" MaxLength="50" />
+          <Property Name="password" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="address" Type="varchar" MaxLength="250" />
+          <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="reportCount" Type="int" />
+          <Property Name="ipAddress" Type="varchar" MaxLength="50" />
+          <Property Name="userAgentAddress" Type="varchar" MaxLength="150" />
+          <Property Name="loginFailure" Type="int" />
+          <Property Name="nextLoginTime" Type="datetime" />
+          <Property Name="lastLogin" Type="datetime" />
+          <Property Name="status" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="registeredDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AccountFee_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="AccountFee" Type="Self.AccountFee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AccountFee">
+              <PropertyRef Name="employeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conversation_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Conversation" Type="Self.Conversation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Conversation">
+              <PropertyRef Name="senderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conversation_User1">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Conversation" Type="Self.Conversation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Conversation">
+              <PropertyRef Name="receiverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_Employee_User' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_Employee_User" />-->
+        <Association Name="FK_Post_JobCategory">
+          <End Role="JobCategory" Type="Self.JobCategory" Multiplicity="0..1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobCategory">
+              <PropertyRef Name="jobID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="jobCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Post_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="employerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostFee_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+          <End Role="PostFee" Type="Self.PostFee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="postID" />
+            </Principal>
+            <Dependent Role="PostFee">
+              <PropertyRef Name="postID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostReport_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="1" />
+          <End Role="PostReport" Type="Self.PostReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="postID" />
+            </Principal>
+            <Dependent Role="PostReport">
+              <PropertyRef Name="reportedPost" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostReport_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="PostReport" Type="Self.PostReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PostReport">
+              <PropertyRef Name="reportByEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rating_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="1" />
+          <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="postID" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="postID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rating_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestedList_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="1" />
+          <End Role="RequestedList" Type="Self.RequestedList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="postID" />
+            </Principal>
+            <Dependent Role="RequestedList">
+              <PropertyRef Name="requestedPostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestedList_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="RequestedList" Type="Self.RequestedList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RequestedList">
+              <PropertyRef Name="requestedEmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Setting_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Setting" Type="Self.Setting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Setting">
+              <PropertyRef Name="modifiedByUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Skill_JobCategory">
+          <End Role="JobCategory" Type="Self.JobCategory" Multiplicity="1" />
+          <End Role="Skill" Type="Self.Skill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobCategory">
+              <PropertyRef Name="jobID" />
+            </Principal>
+            <Dependent Role="Skill">
+              <PropertyRef Name="jobCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Skill_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Skill" Type="Self.Skill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Skill">
+              <PropertyRef Name="employeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBModelStoreContainer">
+          <EntitySet Name="AccountFee" EntityType="Self.AccountFee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Conversation" EntityType="Self.Conversation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobCategory" EntityType="Self.JobCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PostFee" EntityType="Self.PostFee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PostReport" EntityType="Self.PostReport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rating" EntityType="Self.Rating" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RequestedList" EntityType="Self.RequestedList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Setting" EntityType="Self.Setting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Skill" EntityType="Self.Skill" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AccountFee_User" Association="Self.FK_AccountFee_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="AccountFee" EntitySet="AccountFee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conversation_User" Association="Self.FK_Conversation_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Conversation" EntitySet="Conversation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conversation_User1" Association="Self.FK_Conversation_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="Conversation" EntitySet="Conversation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Post_JobCategory" Association="Self.FK_Post_JobCategory">
+            <End Role="JobCategory" EntitySet="JobCategory" />
+            <End Role="Post" EntitySet="Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Post_User" Association="Self.FK_Post_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Post" EntitySet="Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostFee_Post" Association="Self.FK_PostFee_Post">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="PostFee" EntitySet="PostFee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostReport_Post" Association="Self.FK_PostReport_Post">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="PostReport" EntitySet="PostReport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostReport_User" Association="Self.FK_PostReport_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="PostReport" EntitySet="PostReport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rating_Post" Association="Self.FK_Rating_Post">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="Rating" EntitySet="Rating" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rating_User" Association="Self.FK_Rating_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Rating" EntitySet="Rating" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestedList_Post" Association="Self.FK_RequestedList_Post">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="RequestedList" EntitySet="RequestedList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestedList_User" Association="Self.FK_RequestedList_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="RequestedList" EntitySet="RequestedList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Setting_User" Association="Self.FK_Setting_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Setting" EntitySet="Setting" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Skill_JobCategory" Association="Self.FK_Skill_JobCategory">
+            <End Role="JobCategory" EntitySet="JobCategory" />
+            <End Role="Skill" EntitySet="Skill" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Skill_User" Association="Self.FK_Skill_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Skill" EntitySet="Skill" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DBEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="JobCategories" EntityType="DBModel.JobCategory" />
+          <EntitySet Name="Payments" EntityType="DBModel.Payment" />
+          <EntitySet Name="PostFees" EntityType="DBModel.PostFee" />
+          <EntitySet Name="PostReports" EntityType="DBModel.PostReport" />
+          <EntitySet Name="RequestedLists" EntityType="DBModel.RequestedList" />
+          <EntitySet Name="Settings" EntityType="DBModel.Setting" />
+          <EntitySet Name="Skills" EntityType="DBModel.Skill" />
+          <AssociationSet Name="FK_Skill_JobCategory" Association="DBModel.FK_Skill_JobCategory">
+            <End Role="JobCategory" EntitySet="JobCategories" />
+            <End Role="Skill" EntitySet="Skills" />
+          </AssociationSet>
+          <EntitySet Name="Posts" EntityType="DBModel.Post" />
+          <EntitySet Name="Ratings" EntityType="DBModel.Rating" />
+          <AssociationSet Name="FK_Post_JobCategory" Association="DBModel.FK_Post_JobCategory">
+            <End Role="JobCategory" EntitySet="JobCategories" />
+            <End Role="Post" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostFee_Post" Association="DBModel.FK_PostFee_Post">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="PostFee" EntitySet="PostFees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostReport_Post" Association="DBModel.FK_PostReport_Post">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="PostReport" EntitySet="PostReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rating_Post" Association="DBModel.FK_Rating_Post">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="Rating" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestedList_Post" Association="DBModel.FK_RequestedList_Post">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="RequestedList" EntitySet="RequestedLists" />
+          </AssociationSet>
+          <EntitySet Name="Employees" EntityType="DBModel.Employee" />
+          <EntitySet Name="AccountFees" EntityType="DBModel.AccountFee" />
+          <EntitySet Name="Conversations" EntityType="DBModel.Conversation" />
+          <EntitySet Name="Users" EntityType="DBModel.User" />
+          <AssociationSet Name="FK_AccountFee_User" Association="DBModel.FK_AccountFee_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="AccountFee" EntitySet="AccountFees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conversation_User" Association="DBModel.FK_Conversation_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Conversation" EntitySet="Conversations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conversation_User1" Association="DBModel.FK_Conversation_User1">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Conversation" EntitySet="Conversations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Post_User" Association="DBModel.FK_Post_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Post" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostReport_User" Association="DBModel.FK_PostReport_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="PostReport" EntitySet="PostReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rating_User" Association="DBModel.FK_Rating_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Rating" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestedList_User" Association="DBModel.FK_RequestedList_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="RequestedList" EntitySet="RequestedLists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Setting_User" Association="DBModel.FK_Setting_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Setting" EntitySet="Settings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Skill_User" Association="DBModel.FK_Skill_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Skill" EntitySet="Skills" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="JobCategory">
+          <Key>
+            <PropertyRef Name="jobID" />
+          </Key>
+          <Property Name="jobID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="desc" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Skills" Relationship="DBModel.FK_Skill_JobCategory" FromRole="JobCategory" ToRole="Skill" />
+          <NavigationProperty Name="Posts" Relationship="DBModel.FK_Post_JobCategory" FromRole="JobCategory" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="paymentID" />
+          </Key>
+          <Property Name="paymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="paymentDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="amount" Type="Double" Nullable="false" />
+          <Property Name="payFor" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="payForID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PostFee">
+          <Key>
+            <PropertyRef Name="postfeeID" />
+          </Key>
+          <Property Name="postfeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="paymentDate" Type="DateTime" Precision="3" />
+          <Property Name="durationDay" Type="Int32" />
+          <Property Name="fee" Type="Double" />
+          <Property Name="postID" Type="Int32" />
+          <NavigationProperty Name="Post" Relationship="DBModel.FK_PostFee_Post" FromRole="PostFee" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="PostReport">
+          <Key>
+            <PropertyRef Name="reportByEmployee" />
+            <PropertyRef Name="reportedPost" />
+          </Key>
+          <Property Name="reportDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="reportType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="comment" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="reportByEmployee" Type="Int32" Nullable="false" />
+          <Property Name="reportedPost" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Post" Relationship="DBModel.FK_PostReport_Post" FromRole="PostReport" ToRole="Post" />
+          <NavigationProperty Name="User" Relationship="DBModel.FK_PostReport_User" FromRole="PostReport" ToRole="User" />
+        </EntityType>
+        <EntityType Name="RequestedList">
+          <Key>
+            <PropertyRef Name="requestedPostID" />
+            <PropertyRef Name="requestedEmployeeID" />
+          </Key>
+          <Property Name="requestedPostID" Type="Int32" Nullable="false" />
+          <Property Name="requestedEmployeeID" Type="Int32" Nullable="false" />
+          <Property Name="wage" Type="Double" Nullable="false" />
+          <Property Name="requestedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="confirmedDate" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Post" Relationship="DBModel.FK_RequestedList_Post" FromRole="RequestedList" ToRole="Post" />
+          <NavigationProperty Name="User" Relationship="DBModel.FK_RequestedList_User" FromRole="RequestedList" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="settingID" />
+          </Key>
+          <Property Name="settingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="settingStringLong" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="settingStringShort" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="settingStringDouble" Type="Double" />
+          <Property Name="settingStringInt" Type="Int32" />
+          <Property Name="type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="modifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="modifiedByUser" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="DBModel.FK_Setting_User" FromRole="Setting" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Skill">
+          <Key>
+            <PropertyRef Name="skillID" />
+          </Key>
+          <Property Name="skillID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="desc" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="proficiency" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="modifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="employeeID" Type="Int32" Nullable="false" />
+          <Property Name="jobCategoryID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="JobCategory" Relationship="DBModel.FK_Skill_JobCategory" FromRole="Skill" ToRole="JobCategory" />
+          <NavigationProperty Name="User" Relationship="DBModel.FK_Skill_User" FromRole="Skill" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Skill_JobCategory">
+          <End Type="DBModel.JobCategory" Role="JobCategory" Multiplicity="1" />
+          <End Type="DBModel.Skill" Role="Skill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobCategory">
+              <PropertyRef Name="jobID" />
+            </Principal>
+            <Dependent Role="Skill">
+              <PropertyRef Name="jobCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="postID" />
+          </Key>
+          <Property Name="postID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="jobTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="jobDesc" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="jobImage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="wage" Type="Double" />
+          <Property Name="postedDate" Type="DateTime" Precision="3" />
+          <Property Name="postExpired" Type="DateTime" Precision="3" />
+          <Property Name="workingAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="workingDate" Type="DateTime" Precision="3" />
+          <Property Name="workingStart" Type="DateTime" Precision="3" />
+          <Property Name="workingEnd" Type="DateTime" Precision="3" />
+          <Property Name="workingDuration" Type="Double" />
+          <Property Name="workingTotalWage" Type="Double" />
+          <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="modifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="jobCategoryID" Type="Int32" />
+          <Property Name="employerID" Type="Int32" />
+          <NavigationProperty Name="JobCategory" Relationship="DBModel.FK_Post_JobCategory" FromRole="Post" ToRole="JobCategory" />
+          <NavigationProperty Name="PostFees" Relationship="DBModel.FK_PostFee_Post" FromRole="Post" ToRole="PostFee" />
+          <NavigationProperty Name="PostReports" Relationship="DBModel.FK_PostReport_Post" FromRole="Post" ToRole="PostReport" />
+          <NavigationProperty Name="Ratings" Relationship="DBModel.FK_Rating_Post" FromRole="Post" ToRole="Rating" />
+          <NavigationProperty Name="RequestedLists" Relationship="DBModel.FK_RequestedList_Post" FromRole="Post" ToRole="RequestedList" />
+          <NavigationProperty Name="User" Relationship="DBModel.FK_Post_User" FromRole="Post" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="ratingID" />
+          </Key>
+          <Property Name="ratingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nOfFive" Type="Int32" Nullable="false" />
+          <Property Name="comment" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ratingDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="postID" Type="Int32" Nullable="false" />
+          <Property Name="userID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Post" Relationship="DBModel.FK_Rating_Post" FromRole="Rating" ToRole="Post" />
+          <NavigationProperty Name="User" Relationship="DBModel.FK_Rating_User" FromRole="Rating" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Post_JobCategory">
+          <End Type="DBModel.JobCategory" Role="JobCategory" Multiplicity="0..1" />
+          <End Type="DBModel.Post" Role="Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobCategory">
+              <PropertyRef Name="jobID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="jobCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostFee_Post">
+          <End Type="DBModel.Post" Role="Post" Multiplicity="0..1" />
+          <End Type="DBModel.PostFee" Role="PostFee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="postID" />
+            </Principal>
+            <Dependent Role="PostFee">
+              <PropertyRef Name="postID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostReport_Post">
+          <End Type="DBModel.Post" Role="Post" Multiplicity="1" />
+          <End Type="DBModel.PostReport" Role="PostReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="postID" />
+            </Principal>
+            <Dependent Role="PostReport">
+              <PropertyRef Name="reportedPost" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rating_Post">
+          <End Type="DBModel.Post" Role="Post" Multiplicity="1" />
+          <End Type="DBModel.Rating" Role="Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="postID" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="postID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestedList_Post">
+          <End Type="DBModel.Post" Role="Post" Multiplicity="1" />
+          <End Type="DBModel.RequestedList" Role="RequestedList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="postID" />
+            </Principal>
+            <Dependent Role="RequestedList">
+              <PropertyRef Name="requestedPostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="email" />
+          </Key>
+          <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nric" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="dateOfBirth" Type="DateTime" Precision="3" />
+          <Property Name="gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="intro" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="resumeURL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="expiredOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="AccountFee">
+          <Key>
+            <PropertyRef Name="accountFeeID" />
+          </Key>
+          <Property Name="accountFeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="paymentDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="durationDay" Type="Int32" Nullable="false" />
+          <Property Name="fee" Type="Double" Nullable="false" />
+          <Property Name="employeeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="DBModel.FK_AccountFee_User" FromRole="AccountFee" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Conversation">
+          <Key>
+            <PropertyRef Name="converID" />
+          </Key>
+          <Property Name="converID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="senderID" Type="Int32" Nullable="false" />
+          <Property Name="receiverID" Type="Int32" Nullable="false" />
+          <Property Name="message" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="createAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="DBModel.FK_Conversation_User" FromRole="Conversation" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="DBModel.FK_Conversation_User1" FromRole="Conversation" ToRole="User" />
+          </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="image" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="role" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="reportCount" Type="Int32" />
+          <Property Name="ipAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="userAgentAddress" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="loginFailure" Type="Int32" />
+          <Property Name="nextLoginTime" Type="DateTime" Precision="3" />
+          <Property Name="lastLogin" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="registeredDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AccountFees" Relationship="DBModel.FK_AccountFee_User" FromRole="User" ToRole="AccountFee" />
+          <NavigationProperty Name="Conversations" Relationship="DBModel.FK_Conversation_User" FromRole="User" ToRole="Conversation" />
+          <NavigationProperty Name="Conversations1" Relationship="DBModel.FK_Conversation_User1" FromRole="User" ToRole="Conversation" />
+          <NavigationProperty Name="Posts" Relationship="DBModel.FK_Post_User" FromRole="User" ToRole="Post" />
+          <NavigationProperty Name="PostReports" Relationship="DBModel.FK_PostReport_User" FromRole="User" ToRole="PostReport" />
+          <NavigationProperty Name="Ratings" Relationship="DBModel.FK_Rating_User" FromRole="User" ToRole="Rating" />
+          <NavigationProperty Name="RequestedLists" Relationship="DBModel.FK_RequestedList_User" FromRole="User" ToRole="RequestedList" />
+          <NavigationProperty Name="Settings" Relationship="DBModel.FK_Setting_User" FromRole="User" ToRole="Setting" />
+          <NavigationProperty Name="Skills" Relationship="DBModel.FK_Skill_User" FromRole="User" ToRole="Skill" />
+        </EntityType>
+        <Association Name="FK_AccountFee_User">
+          <End Type="DBModel.User" Role="User" Multiplicity="1" />
+          <End Type="DBModel.AccountFee" Role="AccountFee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AccountFee">
+              <PropertyRef Name="employeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conversation_User">
+          <End Type="DBModel.User" Role="User" Multiplicity="1" />
+          <End Type="DBModel.Conversation" Role="Conversation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Conversation">
+              <PropertyRef Name="senderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conversation_User1">
+          <End Type="DBModel.User" Role="User" Multiplicity="1" />
+          <End Type="DBModel.Conversation" Role="Conversation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Conversation">
+              <PropertyRef Name="receiverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Post_User">
+          <End Type="DBModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="DBModel.Post" Role="Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="employerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostReport_User">
+          <End Type="DBModel.User" Role="User" Multiplicity="1" />
+          <End Type="DBModel.PostReport" Role="PostReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PostReport">
+              <PropertyRef Name="reportByEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rating_User">
+          <End Type="DBModel.User" Role="User" Multiplicity="1" />
+          <End Type="DBModel.Rating" Role="Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestedList_User">
+          <End Type="DBModel.User" Role="User" Multiplicity="1" />
+          <End Type="DBModel.RequestedList" Role="RequestedList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RequestedList">
+              <PropertyRef Name="requestedEmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Setting_User">
+          <End Type="DBModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="DBModel.Setting" Role="Setting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Setting">
+              <PropertyRef Name="modifiedByUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Skill_User">
+          <End Type="DBModel.User" Role="User" Multiplicity="1" />
+          <End Type="DBModel.Skill" Role="Skill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Skill">
+              <PropertyRef Name="employeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBModelStoreContainer" CdmEntityContainer="DBEntities" >
+          <EntitySetMapping Name="JobCategories">
+            <EntityTypeMapping TypeName="DBModel.JobCategory">
+              <MappingFragment StoreEntitySet="JobCategory">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="desc" ColumnName="desc" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="jobID" ColumnName="jobID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="DBModel.Payment">
+              <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="payForID" ColumnName="payForID" />
+                <ScalarProperty Name="payFor" ColumnName="payFor" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="paymentDate" ColumnName="paymentDate" />
+                <ScalarProperty Name="paymentID" ColumnName="paymentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PostFees">
+            <EntityTypeMapping TypeName="DBModel.PostFee">
+              <MappingFragment StoreEntitySet="PostFee">
+                <ScalarProperty Name="postID" ColumnName="postID" />
+                <ScalarProperty Name="fee" ColumnName="fee" />
+                <ScalarProperty Name="durationDay" ColumnName="durationDay" />
+                <ScalarProperty Name="paymentDate" ColumnName="paymentDate" />
+                <ScalarProperty Name="postfeeID" ColumnName="postfeeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PostReports">
+            <EntityTypeMapping TypeName="DBModel.PostReport">
+              <MappingFragment StoreEntitySet="PostReport">
+                <ScalarProperty Name="reportedPost" ColumnName="reportedPost" />
+                <ScalarProperty Name="reportByEmployee" ColumnName="reportByEmployee" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="reportType" ColumnName="reportType" />
+                <ScalarProperty Name="reportDate" ColumnName="reportDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequestedLists">
+            <EntityTypeMapping TypeName="DBModel.RequestedList">
+              <MappingFragment StoreEntitySet="RequestedList">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="confirmedDate" ColumnName="confirmedDate" />
+                <ScalarProperty Name="requestedDate" ColumnName="requestedDate" />
+                <ScalarProperty Name="wage" ColumnName="wage" />
+                <ScalarProperty Name="requestedEmployeeID" ColumnName="requestedEmployeeID" />
+                <ScalarProperty Name="requestedPostID" ColumnName="requestedPostID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="DBModel.Setting">
+              <MappingFragment StoreEntitySet="Setting">
+                <ScalarProperty Name="modifiedByUser" ColumnName="modifiedByUser" />
+                <ScalarProperty Name="modifiedDate" ColumnName="modifiedDate" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="settingStringInt" ColumnName="settingStringInt" />
+                <ScalarProperty Name="settingStringDouble" ColumnName="settingStringDouble" />
+                <ScalarProperty Name="settingStringShort" ColumnName="settingStringShort" />
+                <ScalarProperty Name="settingStringLong" ColumnName="settingStringLong" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="settingID" ColumnName="settingID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Skills">
+            <EntityTypeMapping TypeName="DBModel.Skill">
+              <MappingFragment StoreEntitySet="Skill">
+                <ScalarProperty Name="jobCategoryID" ColumnName="jobCategoryID" />
+                <ScalarProperty Name="employeeID" ColumnName="employeeID" />
+                <ScalarProperty Name="modifiedDate" ColumnName="modifiedDate" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="proficiency" ColumnName="proficiency" />
+                <ScalarProperty Name="desc" ColumnName="desc" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="skillID" ColumnName="skillID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Posts">
+            <EntityTypeMapping TypeName="DBModel.Post">
+              <MappingFragment StoreEntitySet="Post">
+                <ScalarProperty Name="employerID" ColumnName="employerID" />
+                <ScalarProperty Name="jobCategoryID" ColumnName="jobCategoryID" />
+                <ScalarProperty Name="modifiedDate" ColumnName="modifiedDate" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="workingTotalWage" ColumnName="workingTotalWage" />
+                <ScalarProperty Name="workingDuration" ColumnName="workingDuration" />
+                <ScalarProperty Name="workingEnd" ColumnName="workingEnd" />
+                <ScalarProperty Name="workingStart" ColumnName="workingStart" />
+                <ScalarProperty Name="workingDate" ColumnName="workingDate" />
+                <ScalarProperty Name="workingAddress" ColumnName="workingAddress" />
+                <ScalarProperty Name="postExpired" ColumnName="postExpired" />
+                <ScalarProperty Name="postedDate" ColumnName="postedDate" />
+                <ScalarProperty Name="wage" ColumnName="wage" />
+                <ScalarProperty Name="jobImage" ColumnName="jobImage" />
+                <ScalarProperty Name="jobDesc" ColumnName="jobDesc" />
+                <ScalarProperty Name="jobTitle" ColumnName="jobTitle" />
+                <ScalarProperty Name="postID" ColumnName="postID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ratings">
+            <EntityTypeMapping TypeName="DBModel.Rating">
+              <MappingFragment StoreEntitySet="Rating">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="postID" ColumnName="postID" />
+                <ScalarProperty Name="ratingDate" ColumnName="ratingDate" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="nOfFive" ColumnName="nOfFive" />
+                <ScalarProperty Name="ratingID" ColumnName="ratingID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="DBModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="expiredOn" ColumnName="expiredOn" />
+                <ScalarProperty Name="resumeURL" ColumnName="resumeURL" />
+                <ScalarProperty Name="intro" ColumnName="intro" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="dateOfBirth" ColumnName="dateOfBirth" />
+                <ScalarProperty Name="nric" ColumnName="nric" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccountFees">
+            <EntityTypeMapping TypeName="DBModel.AccountFee">
+              <MappingFragment StoreEntitySet="AccountFee">
+                <ScalarProperty Name="employeeID" ColumnName="employeeID" />
+                <ScalarProperty Name="fee" ColumnName="fee" />
+                <ScalarProperty Name="durationDay" ColumnName="durationDay" />
+                <ScalarProperty Name="paymentDate" ColumnName="paymentDate" />
+                <ScalarProperty Name="accountFeeID" ColumnName="accountFeeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Conversations">
+            <EntityTypeMapping TypeName="DBModel.Conversation">
+              <MappingFragment StoreEntitySet="Conversation">
+                <ScalarProperty Name="createAt" ColumnName="createAt" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="message" ColumnName="message" />
+                <ScalarProperty Name="receiverID" ColumnName="receiverID" />
+                <ScalarProperty Name="senderID" ColumnName="senderID" />
+                <ScalarProperty Name="converID" ColumnName="converID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="DBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="registeredDate" ColumnName="registeredDate" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="lastLogin" ColumnName="lastLogin" />
+                <ScalarProperty Name="nextLoginTime" ColumnName="nextLoginTime" />
+                <ScalarProperty Name="loginFailure" ColumnName="loginFailure" />
+                <ScalarProperty Name="userAgentAddress" ColumnName="userAgentAddress" />
+                <ScalarProperty Name="ipAddress" ColumnName="ipAddress" />
+                <ScalarProperty Name="reportCount" ColumnName="reportCount" />
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="userName" ColumnName="userName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,80 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        });
+    });
+</script>
+<div class="forms">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <h2 class="aligncenter">@ViewBag.Title </h2>
+                <h4 class="aligncenter">@ViewBag.subtitle</h4>
+            </div>
+            <div class="col-sm-3">
+                <i class="pull-right"><strong>Generated on: </strong> @DateTime.Today.ToShortDateString()</i>
+            </div>
+        </div>
+    </div>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <table id="dataTable" class="table table-hover table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Employee name</th>
+                        <th>Total job Absent</th>
+                        <th>Total job Completed</th>
+                        <th>Average Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (User item in ViewBag.rpt)
+                    {
+                    <tr>
+                        <td>@item.userName</td>
+                        <td>@item.RequestedLists.Where(x => x.status == "success").ToList().Count(y => y.Post.status == "absent")</td>
+                        <td>@item.RequestedLists.Where(x => x.status == "success").ToList().Count(y => y.Post.status == "completed")</td>
+                        @{
+                            double sumRate = item.Ratings.Sum(x => x.nOfFive);
+                            double countRate = item.Ratings.Count() * 5;
+                            double employeeRate = (sumRate / countRate);
+
+                            string rate = employeeRate.ToString("0 of 5");
+                            if (countRate == 0)
+                            {
+                                rate = "No Rating";
+                            }
+
+                        }
+
+                        <td>@rate</td>
+                    </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Last login date</th>
+                        <th>Inactive day</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+@section footer {
+
+
+}

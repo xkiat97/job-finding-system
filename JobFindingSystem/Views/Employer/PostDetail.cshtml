@@ -1,0 +1,213 @@
+﻿
+@{
+    ViewBag.Title = "Post detail";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    Post post = ViewBag.post;
+    string imgUrl = post.jobImage ?? "../upload.png";
+}
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "lengthMenu": [[5, 25, -1], [5, 25, "All"]]
+        });
+    });
+</script>
+<div class="forms">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="title1">@ViewBag.Title</h2>
+        </div>
+    </div>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms" style="background-color: #F1F1F1; border: none; box-shadow: none">
+        <!--Job Heading-->
+        <div class="row col-md-12 widget-shadow">
+            <br>
+            <div class="col-md-2">
+                <img src="~/Photo/Post/@imgUrl" class="img-thumbnail">
+            </div>
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4>@post.jobTitle</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1">
+                        <div class="glyphicon glyphicon-map-marker"></div>
+                    </div>
+                    <div class="col-md-7">
+                        <div>@post.workingAddress</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1">
+                        <div class="glyphicon glyphicon-calendar"></div>
+                    </div>
+                    <div class="col-md-7">
+                        @post.workingDate.Value.ToString("dd-MMMM-yyyy")
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="row">
+                    <h6 style="color:#a6a6a6;">Posted on @post.postedDate</h6>
+                </div>
+                <div class="row">
+                    <div class="">MYR @post.wage/hr</div>
+                </div>
+                <div class="row">
+                    <div class="glyphicon glyphicon-briefcase"> @post.JobCategory.name</div>
+                </div>
+
+                @*<div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-10">
+                            <a href="~/Employer/UpdatePost?postID=@post.postID" class="btn-lg btn-success pull-right">Edit</a>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+        <!--//Job Heading-->
+        <!--Job Desc-->
+        <div class="row col-md-12 widget-shadow">
+            <div class="row">
+                <div class="col-md-6">
+                    <br>
+                    <div class="row">
+                        <h4>Job Description</h4>
+                    </div>
+                    <div class="row">
+                        <p>@post.jobDesc</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <br>
+                    <div class="row">
+                        <h4>Posting fee</h4>
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Purchase date</th>
+                                    <th>Post duration</th>
+                                    <th>Post fee</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (PostFee postFee in post.PostFees.OrderByDescending(x => x.paymentDate))
+                                {
+                                    <tr>
+                                        <td>@postFee.paymentDate</td>
+                                        <td>@postFee.durationDay day(s)</td>
+                                        <td>RM @postFee.fee</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8"><i style="color:red;">Post expire on @post.postExpired (LEFT: @((int)(post.postExpired - DateTime.Now).Value.TotalDays) DAYS)</i></div>
+                        <div class="col-md-4">
+                            <a href="~/Employer/AddPostFee?postID=@post.postID" class="btn-lg btn-success pull-right">Extend post</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//Job Desc-->
+        <!--Job Bidding-->
+        <div class="row col-md-12 widget-shadow">
+            <div class="row">
+                <div class="col-md-12">
+                    <br>
+                    <div class="row">
+                        <h4>All biders</h4>
+                    </div>
+                    <div class="row">
+                        <table id="dataTable" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Biding date</th>
+                                    <th>Bider name</th>
+                                    <th>wage (MYR)</th>
+                                    <th>Rating</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (RequestedList bider in post.RequestedLists)
+                                {
+                                    string status = "";
+                                    if (bider.status == "success")
+                                    {
+                                        status = "alert alert-success";
+                                    }
+                                    else if (bider.status == "failed")
+                                    {
+                                        status = "alert alert-danger";
+                                    }
+
+                                    <tr class="@status">
+                                        <td>@bider.requestedDate</td>
+                                        <td>@bider.User.userName</td>
+                                        <td>@bider.wage</td>
+                                        @{
+                                            double sumRate = bider.User.Ratings.Sum(x => x.nOfFive);
+                                            double countRate = bider.User.Ratings.Count() * 5;
+                                            double employeeRate = (sumRate / countRate);
+
+                                            string rate = employeeRate.ToString("0.00");
+
+                                        }
+                                        <td>@rate</td>
+                                        <td>
+                                            @if (bider.status == "success")
+                                            {
+                                                //display cancel employment
+                                                //within 24hrs
+                                                if (bider.confirmedDate.Value.AddDays(1) > DateTime.Now)
+                                                {
+                                                    int hr = (int)(bider.confirmedDate.Value.AddDays(1) - DateTime.Now).TotalHours;
+
+                                                    <span>You can cancel within </span> @hr <span> hr(s)</span>
+                                                    <a href="~/Employer/DELEmploy?postID=@bider.requestedPostID&employeeID=@bider.requestedEmployeeID" class="btn btn-danger">Cancel</a>
+                                                }
+                                                else
+                                                {
+                                                    <text>Employment cant be cancel anymore. </text>
+                                                }
+                                            }
+                                            else if (bider.status == "failed")
+                                            {
+                                                //display failed status
+                                                <span> FAILED </span>
+                                            }
+                                            else
+                                            {
+                                                //display employ button
+                                                <a href="Employ?postID=@bider.requestedPostID&employeeID=@bider.requestedEmployeeID" class="btn btn-primary">Employ</a>
+                                            }
+                                            <a href="viewEmployeeProfile?employeeID=@bider.requestedEmployeeID" class="btn btn-success">Profile</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//Job Bidding-->
+    </div>
+</div>
+
+
+

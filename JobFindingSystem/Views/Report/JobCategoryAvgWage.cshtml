@@ -1,0 +1,84 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        });
+    });
+</script>
+<div class="forms">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <h2 class="aligncenter">@ViewBag.Title </h2>
+                <h4 class="aligncenter">@ViewBag.subtitle</h4>
+            </div>
+            <div class="col-sm-3">
+                <i class="pull-right"><strong>Generated on: </strong> @DateTime.Today.ToShortDateString()</i>
+            </div>
+        </div>
+    </div>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <table id="dataTable" class="table table-hover table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Job Category</th>
+                        <th>Total skills</th>
+                        <th>Total Duration Transaction</th>
+                        <th>Total Wage Transaction</th>
+                        <th>Average Paid per Hr</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ 
+                        List<Post> post = ViewBag.rpt;
+                        var grp = post.GroupBy(g => g.JobCategory).Select(s => new
+                        {
+                            jobCategoryName = s.Key.name,
+                            totalWage = s.Sum(x => x.workingTotalWage).Value,
+                            totalDuration = s.Sum(x => x.workingDuration).Value,
+                            numberOfJob = s.Count()
+                        });
+                    }
+                    @foreach (var item in grp)
+                    {
+                        double skill = item.numberOfJob;
+                        double totalDurtion = item.totalDuration;
+                        double totalWage = item.totalWage;
+                        double avg = totalWage / totalDurtion;
+                    <tr>
+                        <td>@item.jobCategoryName</td>
+                        <td>@skill.ToString("0")</td>
+                        <td>@totalDurtion.ToString("0.00 hrs")</td>
+                        <td>@item.totalWage.ToString("RM 0.00")</td>
+                        <td>@avg.ToString("RM 0.00")</td>
+                    </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Job Category</th>
+                        <th>Total skills</th>
+                        <th>Total Duration Transaction</th>
+                        <th>Total Wage Transaction</th>
+                        <th>Average Paid per Hr</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+@section footer {
+
+
+}

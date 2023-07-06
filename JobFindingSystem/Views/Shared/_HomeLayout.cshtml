@@ -1,0 +1,454 @@
+﻿<!--
+    Author: W3layouts
+    Author URL: http://w3layouts.com
+    License: Creative Commons Attribution 3.0 Unported
+    License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+@model JobFindingSystem.Models.AddAccountVM
+@{
+    var opt = new AjaxOptions
+    {
+        UpdateTargetId = "wrapper",
+        LoadingElementId = "loader"
+
+    };
+
+    var opt1 = new AjaxOptions
+    {
+        UpdateTargetId = "wrapper1",
+        LoadingElementId = "loader"
+
+    };
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <link href="~/TemplateSources/HomeSources/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="~/TemplateSources/HomeSources/css/style6.css" rel='stylesheet' type='text/css' />
+    <link href="~/TemplateSources/HomeSources/css/style.css" rel='stylesheet' type='text/css' />
+    <link href="~/TemplateSources/HomeSources/css/fontawesome-all.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700" rel="stylesheet">
+
+
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    @RenderSection("header", false)
+</head>
+
+
+<body>
+    <!-- banner-inner -->
+    @if (ViewBag.title == "Home")
+    {
+        <div id="demo-1" data-zs-src='[
+                "../TemplateSources/HomeSources/images/1.jpg",
+                "../TemplateSources/HomeSources/images/2.jpg",
+                "../TemplateSources/HomeSources/images/3.jpg",
+                "../TemplateSources/HomeSources/images/4.jpg"
+                ]'
+             data-zs-overlay="dots">
+            <div class="demo-inner-content">
+                <div class="header-top">
+                    <header>
+                        <div class="top-head ml-lg-auto text-center">
+                            <div class="row top-vl">
+
+                                <div class="col-md-4">
+                                    <span>Welcome Back!</span>
+                                </div>
+                                <div class="col-md-3 sign-btn">
+                                    <a href="~/Account/Login/">
+                                        <i class="fas fa-lock"></i> Sign In
+                                    </a>
+                                </div>
+                                <div class="col-md-3 sign-btn">
+                                    <a href="~/Home/index/#" data-toggle="modal" data-target="#exampleModalCenter2">
+                                        <i class="far fa-user"></i> Register
+                                    </a>
+                                </div>
+                                <div class="search col-md-2">
+                                    <div class="mobile-nav-button">
+                                        <button id="trigger-overlay" type="button">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                    <!-- open/close -->
+                                    <div class="overlay overlay-door">
+                                        <button type="button" class="overlay-close">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </button>
+                                        <form action="#" method="post" class="d-flex">
+                                            <input class="form-control" type="search" placeholder="Search here..." required="">
+                                            <button type="submit" class="btn btn-primary submit">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <!-- open/close -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <nav class="navbar navbar-expand-lg navbar-light">
+                            <div class="logo">
+                                <h1>
+                                    <a class="navbar-brand" href="~/Home/index">
+                                        <i class="fab fa-codepen"></i> JobFull
+                                    </a>
+                                </h1>
+                            </div>
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon">
+                                    <i class="fas fa-bars"></i>
+                                </span>
+
+                            </button>
+
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav ml-lg-auto text-center">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="~/Home/index">
+                                            Home
+                                            <span class="sr-only">(current)</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="~/Home/HowItWork">How it works</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="~/Home/Pricing">Pricing</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="~/Home/Contact">Contact</a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </nav>
+                    </header>
+                </div>
+                <!--/banner-info-w3layouts-->
+                @RenderSection("banner", false)
+                <!--//banner-info-w3layouts-->
+            </div>
+        </div>
+    }
+    else
+    {
+        <div id="demo-1" class="page-content">
+            <div class="dotts">
+                <div class="header-top">
+                    <header>
+                        <div class="top-head ml-lg-auto text-center">
+                            <div class="row top-vl">
+
+                                <div class="col-md-4">
+                                    @*<span>Welcome Back!</span>*@
+                                </div>
+                                <div class="col-md-3 sign-btn">
+                                    <a href="~/Account/Login/">
+                                        <i class="fas fa-lock"></i> Sign In
+                                    </a>
+                                </div>
+                                <div class="col-md-3 sign-btn">
+                                    <a href="~/Home/index/#" data-toggle="modal" data-target="#exampleModalCenter2">
+                                        <i class="far fa-user"></i> Register
+                                    </a>
+                                </div>
+                                <div class="search col-md-2">
+                                    <div class="mobile-nav-button">
+                                        <button id="trigger-overlay" type="button">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                    <!-- open/close -->
+                                    <div class="overlay overlay-door">
+                                        <button type="button" class="overlay-close">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </button>
+                                        <form action="#" method="post" class="d-flex">
+                                            <input class="form-control" type="search" placeholder="Search here..." required="">
+                                            <button type="submit" class="btn btn-primary submit">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <!-- open/close -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <nav class="navbar navbar-expand-lg navbar-light">
+                            <div class="logo">
+                                <h1>
+                                    <a class="navbar-brand" href="~/Home/index">
+                                        <i class="fab fa-codepen"></i> JobFull
+                                    </a>
+                                </h1>
+                            </div>
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon">
+                                    <i class="fas fa-bars"></i>
+                                </span>
+
+                            </button>
+
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav ml-lg-auto text-center">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="~/Home/index">
+                                            Home
+                                            <span class="sr-only">(current)</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="~/Home/HowItWork">How it works</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="~/Home/Pricing">Pricing</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="~/Home/Contact">Contact</a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </nav>
+                    </header>
+                </div>
+                <!--/banner-info-w3layouts-->
+                @RenderSection("banner", false)
+                @if (ViewBag.title != "Home")
+                {
+                    <div class="banner-info-w3layouts text-center"></div>
+                }
+                <!--//banner-info-w3layouts-->
+            </div>
+        </div>
+    }
+    @RenderSection("subNav", false)
+    <!-- banner-text -->
+    <!-- /Body -->
+    <h3 class="alert-success" role="alert">
+        @TempData["info"]
+    </h3>
+    @RenderBody()
+
+    <br><br><br>
+    <br><br><br>
+    <!-- //Body -->
+    <!--footer -->
+    <footer class="footer-emp-w3layouts bg-dark dotts py-lg-5 py-3">
+        <div class="container-fluid px-lg-5 px-3">
+            <div class="row footer-top">
+                <div class="col-lg-3 footer-grid-wthree-w3ls">
+                    <div class="footer-title">
+                        <h3>About Us</h3>
+                    </div>
+                    <div class="footer-text">
+                        <p>Job Finding would like to provide a plateform for everyone to get employed whenever they ready!</p>
+                        <ul class="footer-social text-left mt-lg-4 mt-3">
+
+                            <li class="mx-2">
+                                <a href="#">
+                                    <span class="fab fa-facebook-f"></span>
+                                </a>
+                            </li>
+                            <li class="mx-2">
+                                <a href="#">
+                                    <span class="fab fa-twitter"></span>
+                                </a>
+                            </li>
+                            <li class="mx-2">
+                                <a href="#">
+                                    <span class="fab fa-google-plus-g"></span>
+                                </a>
+                            </li>
+                            <li class="mx-2">
+                                <a href="#">
+                                    <span class="fab fa-linkedin-in"></span>
+                                </a>
+                            </li>
+                            <li class="mx-2">
+                                <a href="#">
+                                    <span class="fas fa-rss"></span>
+                                </a>
+                            </li>
+                            <li class="mx-2">
+                                <a href="#">
+                                    <span class="fab fa-vk"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 footer-grid-wthree-w3ls">
+                    <div class="footer-title">
+                        <h3>Get in touch</h3>
+                    </div>
+                    <div class="contact-info">
+                        <h4>Location :</h4>
+                        <p>Kampus Utama, Jalan Genting Kelang, 53300 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur</p>
+                        <div class="phone">
+                            <h4>Contact :</h4>
+                            <p>Tel : (6)03-4145 0241</p>
+                            <p>
+                                Email :
+                                <a href="~/TemplateSources/HomeSources/mailto:info@tarc.edu.my">info@tarc.edu.my</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 footer-grid-wthree-w3ls">
+                    <div class="footer-title">
+                        <h3>Quick Links</h3>
+                    </div>
+                    <ul class="links">
+                        <li>
+                            <a href="~/Home/index">Home</a>
+                        </li>
+                        <li>
+                            <a href="~/Home/Contact">Contact Us</a>
+                        </li>
+                    </ul>
+                    <ul class="links">
+                        <li>
+                            <a href="~/Home/howItWork">How it works</a>
+                        </li>
+                        <li>
+                            <a href="~/Home/Pricing">Pricing</a>
+                        </li>
+                    </ul>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-lg-3 footer-grid-wthree-w3ls">
+                    <div class="footer-title">
+                        <h3>Sign up for your offers</h3>
+                    </div>
+                    <div class="footer-text">
+                        <p>By subscribing to our mailing list you will always get latest news and updates from us.</p>
+                        <form action="#" method="post" id="subscribe">
+                            <input class="form-control" type="email" name="Email" placeholder="Enter your email..." required="">
+                            <button class="btn2">
+                                <i class="far fa-envelope" aria-hidden="true"></i>
+                            </button>
+                            <div class="clearfix"> </div>
+                        </form>
+                        <div id="thankyou">Thank You for Subscribing Us.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright mt-4">
+                <p class="copy-right text-center ">
+                    &copy; 2018 Replenish. All Rights Reserved | Design by
+                    <a href="~/TemplateSources/HomeSources/http://w3layouts.com/"> W3layouts </a>
+                </p>
+            </div>
+        </div>
+    </footer>
+    <!-- //footer -->
+    <!--model-forms-->
+    <!--/Register-->
+    <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="login px-4 mx-auto mw-100">
+                        <h5 class="text-center mb-4">Register Now</h5>
+                        <div id="wrapper">
+                            @Html.Partial("_Register")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--//Register-->
+    <!--//model-form-->
+    <!-- js -->
+    <!--/slider-->
+    <script src="~/TemplateSources/HomeSources/js/jquery-1.11.1.min.js"></script>
+    <script src="~/TemplateSources/HomeSources/js/modernizr-2.6.2.min.js"></script>
+    <!--//slider-->
+    <!--search jQuery-->
+    <script src="~/TemplateSources/HomeSources/js/classie-search.js"></script>
+    <script src="~/TemplateSources/HomeSources/js/demo1-search.js"></script>
+    <!--//search jQuery-->
+
+    <script>
+        $(document).ready(function () {
+            $(".dropdown").hover(
+                function () {
+                    $('.dropdown-menu', this).stop(true, true).slideDown("fast");
+                    $(this).toggleClass('open');
+                },
+                function () {
+                    $('.dropdown-menu', this).stop(true, true).slideUp("fast");
+                    $(this).toggleClass('open');
+                }
+            );
+        });
+    </script>
+    <!-- //dropdown nav -->
+    <!-- //js -->
+    <script src="~/TemplateSources/HomeSources/js/bootstrap.js"></script>
+    <!--/ start-smoth-scrolling -->
+    <script src="~/TemplateSources/HomeSources/js/move-top.js"></script>
+    <script src="~/TemplateSources/HomeSources/js/easing.js"></script>
+    <script>
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({
+                    scrollTop: $(this.hash).offset().top
+                }, 900);
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            $().UItoTop({
+                easingType: 'easeOutQuart'
+            });
+
+        });
+    </script>
+    <!--// end-smoth-scrolling -->
+    <!-- Hide and show subscription-->
+    <script>
+        $(document).ready(function () {
+            $("#hide").click(function () {
+                $("#subscribe").fadeOut(500);
+                $("#thankyou").fadeIn(3000);
+            });
+        });
+    </script>
+    < !--//Hide and show subscription -->
+    @RenderSection("footer", false)
+</body>
+</html>
+

@@ -1,0 +1,130 @@
+﻿@model EditJobCategoryVM
+
+@{
+    ViewBag.Title = "Update Job Category";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+
+}
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var table = $('#dataTable').DataTable();
+    });
+</script>
+<div class="forms">
+    <h2 class="title1">@ViewBag.Title</h2>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <h4>Job Category Information</h4>
+        </div>
+        <div class="form-body">
+            <form method="post" class="form-horizontal">
+                <div class="form-group">
+                    <div>
+                        @Html.LabelFor(m => m.Id, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                        <div class="col-sm-2" style="margin-right: 60px; text-align: right">
+                            <p class="col-sm-2 control-label">@Model.Id</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(j => j.Name, new { maxlength = 50, required = "", autofocus = "", Class = "form-control1 col-sm-6", placeholder = "Enter job category title", title = "Title cannot be empty." })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.Name, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Description, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @Html.TextAreaFor(j => j.Description, new { maxlength = 200, required = "", Class = "form-control rounded-0 col-sm-6", placeholder = "Enter job title description. Cannot more than 200 character...", title = "Description cannot be empty." })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.Description, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Status, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @Html.DropDownListFor(m => m.Status,
+                                     new SelectList(Enum.GetValues(typeof(Status))),
+                                     new { Class = "form-control col-sm-6 seachSelector", style = "text-align: left; text-transform: uppercase" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.Status, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+                <hr>
+                <br>
+                <div class="row">
+                    <h4>Skills in category</h4>
+                    <br>
+                    <table id="dataTable" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Job category</th>
+                                <th>Skill name</th>
+                                <th>Skill description</th>
+                                <th>Proficiency</th>
+                                <th>Employee</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Skill skill in ViewBag.skills)
+                            {
+                                <tr>
+                                    <td>@skill.JobCategory.name</td>
+                                    <td>@skill.name</td>
+                                    <td>@skill.desc</td>
+                                    <td>@skill.proficiency</td>
+                                    <td>@skill.User.userName</td>
+                                    <td>
+                                        @if (skill.status == "active")
+                                        {
+                                            <a href="~/Admin/RemoveSkill?skillID=@skill.skillID" class="btn btn-danger btn-block">Remove</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="~/Admin/RestoreSkill?skillID=@skill.skillID" class="btn btn-success btn-block">Restore</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Job category</th>
+                                <th>Skill name</th>
+                                <th>Skill description</th>
+                                <th>Proficiency</th>
+                                <th>Employee</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <br>
+                <div class="row">
+                    <div class="col-sm-8"></div>
+                    <div class="col-sm-4">
+                        <button class="btn btn-dark" data-url="/Admin/EditJob/@Model.Id">Reset</button>
+                        <button class="btn btn-default" data-url="/Admin/ListJob">Back to List</button>
+                        <button class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+                <br>
+            </form>
+        </div>
+    </div>
+</div>
+

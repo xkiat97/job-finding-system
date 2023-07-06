@@ -1,0 +1,223 @@
+﻿@model ProfileVM
+
+@{
+    ViewBag.Title = "Update Employer Profile";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+
+    SelectList phoneCode = new SelectList(new List<SelectListItem>
+    {
+        new SelectListItem { Selected = ("-1" == Model.PhoneCode) ? true : false, Text = "- Select One -"},
+        new SelectListItem { Selected = ("012" == Model.PhoneCode) ? true : false, Text = "012", Value = "012"},
+        new SelectListItem { Selected = ("016" == Model.PhoneCode) ? true : false, Text = "016", Value = "016"},
+        new SelectListItem { Selected = ("017" == Model.PhoneCode) ? true : false, Text = "017", Value = "017"},
+        new SelectListItem { Selected = ("018" == Model.PhoneCode) ? true : false, Text = "018", Value = "018"},
+        new SelectListItem { Selected = ("019" == Model.PhoneCode) ? true : false, Text = "019", Value = "019"},
+        new SelectListItem { Selected = ("011" == Model.PhoneCode) ? true : false, Text = "011", Value = "011"},
+    }, "Value", "Text", 1);
+}
+
+<div class="forms">
+    <h2 class="title1">@ViewBag.Title</h2>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <h4>Profile Information</h4>
+        </div>
+        <div class="form-body">
+            <form method="post" enctype="multipart/form-data" class="form-horizontal">
+                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.Email)
+                @Html.HiddenFor(m => m.PhotoURL)
+                <div class="form-group">
+                    <div class="col-sm-3"></div>
+
+                    <label class="col-sm-3">
+                        <label class="col-sm-3">
+                            @Html.TextBoxFor(m => m.Photo, new { type = "file", accept = "image/*", style = "display:none" })
+                            <img src="~/Photo/Profile/@Model.PhotoURL" width="200" height="200" id="prev">
+                        </label>
+                    </label>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.Photo, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        <p class="col-sm-6 control-label" style="text-align: left">@Model.Email</p>
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.Email, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.Name, new { maxLength = 50, required = "", Class = "form-control1", placeholder = "Enter your name", title = "Name cannot be empty." })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.Name, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @Html.PasswordFor(m => m.Password, new { maxLength = 20, required = "", autofocus = "", Class = "form-control1 col-sm-6", placeholder = "Enter your password before update your profile", title = "Current password must be entered to update profile." })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.Password, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NewPassword, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @Html.PasswordFor(m => m.NewPassword, new { maxLength = 20, Class = "form-control1 col-sm-6", placeholder = "Enter your new password" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.NewPassword, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.phone, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    @if (User.Identity.Name == Model.Email)
+                    {
+                        <div class="col-sm-2">
+                            @Html.DropDownListFor(m => m.PhoneCode, phoneCode, new { Class = "col-sm-2 form-control" })
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(m => m.phone, new { maxlength = 8, required = "", Class = "form-control col-sm-4", placeholder = "Enter your phone", title = "Phone number cannot be empty." })
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.ValidationMessageFor(m => m.PhoneCode, "", new { Class = "alert-danger" })
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.ValidationMessageFor(m => m.phone, "", new { Class = "alert-danger" })
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-sm-6">
+                            <p class="col-sm-6 control-label" style="text-align: left">@Model.PhoneCode - @Model.phone</p>
+                            @Html.HiddenFor(m => m.phone)
+                        </div>
+                    }
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserAddress, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.UserAddress, new { id = "autocomplete", maxlength = 250, required = "", Class = "form-control1 col-sm-6", placeholder = "Enter your address", onfocus = "geolocate()" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.UserAddress, "", new { Class = "alert-danger" })
+                    </div>
+
+                </div>
+
+                <br>
+                <div class="col-sm-8"></div>
+                <div class="col-sm-12" style="margin-bottom: 20px; text-align: right">
+                    <button class="btn btn-dark" type="reset">Reset</button>
+                    <button class="btn btn-default" data-url="/Employer/EmployerProfile">Back to Profile</button>
+                    <button class="btn btn-primary">Update</button>
+                </div>
+                <br>
+            </form>
+        </div>
+    </div>
+</div>
+@section footer {
+    <script>
+        // TODO: Enable validation on hidden inputs
+        $.validator.setDefaults({ ignore: "" });
+
+        var img = $("#prev")[0];
+        var src = img.src;
+
+        img.onerror = function () {
+            img.src = src;
+            $("#Photo").val("");
+        };
+
+        $("#Photo").change(function (e) {
+            var f = this.files[0];
+            img.src = f ? URL.createObjectURL(f) : "";
+        });
+    </script>
+
+    @*Google address searching*@
+    <script>
+        // This example displays an address form, using the autocomplete feature
+        // of the Google Places API to help users fill in the information.
+
+        // This example requires the Places library. Include the libraries=places
+        // parameter when you first load the API. For example:
+        // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+        var placeSearch, autocomplete;
+        var componentForm = {
+            street_number: 'long_name',
+            route: 'long_name',
+            locality: 'long_name',
+            administrative_area_level_1: 'short_name',
+            country: 'long_name',
+            postal_code: 'short_name'
+        };
+
+        function initAutocomplete() {
+            // Create the autocomplete object, restricting the search to geographical
+            // location types.
+            autocomplete = new google.maps.places.Autocomplete(
+                        /** @@type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+                { types: ['geocode'] });
+
+            // When the user selects an address from the dropdown, populate the address
+            // fields in the form.
+            autocomplete.addListener('place_changed', fillInAddress);
+        }
+
+        function fillInAddress() {
+            // Get the place details from the autocomplete object.
+            var place = autocomplete.getPlace();
+
+            for (var component in componentForm) {
+                $('.' + component).val("");
+            }
+
+            // Get each component of the address from the place details
+            // and fill the corresponding field on the form.
+            console.log(place.address_components);
+            for (var i = 0; i < place.address_components.length; i++) {
+                var addressType = place.address_components[i].types[0];
+                if (componentForm[addressType]) {
+                    var val = place.address_components[i][componentForm[addressType]];
+                    $('.' + addressType).val(val);
+                }
+            }
+        }
+
+        // Bias the autocomplete object to the user's geographical location,
+        // as supplied by the browser's 'navigator.geolocation' object.
+        function geolocate() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var geolocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    var circle = new google.maps.Circle({
+                        center: geolocation,
+                        radius: position.coords.accuracy
+                    });
+                    autocomplete.setBounds(circle.getBounds());
+                });
+            }
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbi_YnG0TT_9rn_74DIzmuSdW1CDb0q2Y&libraries=places&callback=initAutocomplete"
+            async defer></script>
+}

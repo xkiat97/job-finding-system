@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewBag.Title = "My Employment";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    string calendar = ViewBag.calendar;
+}
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+
+    <link href="~/TemplateSources/Calendar/fullcalendar.min.css" rel="stylesheet" />
+    <link href="~/TemplateSources/Calendar/fullcalendar.print.css" rel="stylesheet" media='print' />
+
+    <style>
+        #calendar {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+    </style>
+}
+@* Calendar session *@
+<script src="~/TemplateSources/Calendar/moment.min.js"></script>
+<script src="~/TemplateSources/Calendar/jquery.min.js"></script>
+<script src="~/TemplateSources/Calendar/fullcalendar.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay,listMonth'
+            },
+            defaultDate: '@DateTime.Today.ToString("yyyy-MM-dd")',
+            navLinks: true, // can click day/week names to navigate views
+            businessHours: true, // display business hours
+            events: [
+                @Html.Raw(calendar)
+            //background for today date
+            {
+                start: '@DateTime.Today.ToString("yyyy-MM-dd")',
+                overlap: false,
+                rendering: 'background',
+                color: '#ff9f89'
+            }]
+        });
+
+    });
+</script>
+
+@* Datatable section *@
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]]
+        });
+    });
+</script>
+
+<div class="forms">
+    <h2 class="title1">@ViewBag.Title</h2>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <h4>@ViewBag.Title</h4>
+        </div>
+        <table id="dataTable" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Job title</th>
+                    <th>Employer name</th>
+                    <th>Employer contact</th>
+                    <th>Working date</th>
+                    <th>Hourly pay (MYR)</th>
+                    <th>Working address</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (RequestedList rqst in ViewBag.requestedPosts)
+                {
+                    <tr>
+                        <td>@rqst.Post.jobTitle</td>
+                        <td>@rqst.Post.User.userName</td>
+                        <td>@rqst.Post.User.phone</td>
+                        <td>@rqst.Post.workingDate</td>
+                        <td>@rqst.wage</td>
+                        <td>@rqst.Post.workingAddress</td>
+                        <td><a href="~/Employee/JobDetail?postID=@rqst.requestedPostID" class="btn btn-primary">Employment</a></td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Job title</th>
+                    <th>Employer name</th>
+                    <th>Employer contact</th>
+                    <th>Working date</th>
+                    <th>Hourly pay (MYR)</th>
+                    <th>Working address</th>
+                    <th>Action</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <h4>Schedules</h4>
+        </div>
+        <div class="form-body">
+            <div id='calendar'></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,209 @@
+﻿@{
+    ViewBag.Title = "Bidder Profile";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    User user = ViewBag.u;
+    Employee employee = ViewBag.e;
+    var rating = user.Ratings;
+
+    string imgUrl = "../noImage.png";
+    string gender = employee.gender == "M" ? "Male" : "Female";
+    if (user.image != null)
+    {
+        imgUrl = user.image;
+    }
+}
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.dataTable').DataTable({
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        });
+    });
+</script>
+<div class="forms">
+    <div class="alert-success" role="alert">
+        @TempData["info"]
+    </div>
+    <br />
+    <h2 class="title1">@ViewBag.Title</h2>
+    <!--Profile Heading-->
+    <div class="row panel-info widget-shadow">
+        <br>
+        <div class="row">
+            <div class="col-md-3">
+                <img src="~/Photo/Profile/@imgUrl" style="display: block; margin-left: auto; margin-right: auto;" class="img-rounded" height="250" width="200">
+            </div>
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div><strong>Name: </strong>@user.userName</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div><strong>Gender: </strong>@gender</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div><strong>Birth: </strong>@employee.dateOfBirth.Value.ToString("dd-MMMM-yyyy")</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-justify"><strong>Address: </strong>@user.address</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-justify"><strong>About me: </strong>@employee.intro</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="glyphicon glyphicon-earphone"> (60) @user.phone</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="glyphicon glyphicon-envelope"> @user.email</div>
+                    </div>
+                    <div class="col-md-4">
+                        @{
+                            double sumRate = user.Ratings.Sum(x => x.nOfFive);
+                            double countRate = user.Ratings.Count() * 5;
+                            double employeeRate = (sumRate / countRate);
+                            string rate = employeeRate.ToString("0");
+
+                        }
+                        <div class="glyphicon glyphicon-star"> Rating:@rate/5</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div clss="row">
+                    <div class="row pull-right">
+                        <div class="col-md-1">
+                            <div class="glyphicon glyphicon-eye-open" data-toggle="tooltip" title="View Resume." data-placement="bottom" style="cursor:pointer;" data-url="/Employer/viewEmployeePDF?employeeID=@user.Id"></div>
+                        </div><div class="col-md-1">
+                            <div class="glyphicon glyphicon-download-alt" data-toggle="tooltip" title="Download Resume." data-placement="bottom" style="cursor:pointer;"></div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="glyphicon glyphicon-print" onclick="window.print()" title="Print Resume." data-placement="bottom" style="cursor:pointer;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <!--//Profile Heading-->
+    <div class="row panel-info widget-shadow">
+        <h4 class="title2">Other information:</h4>
+        <br>
+        <ul id="myTabs" class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#Skill" id="Skill-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">My Skill</a>
+            </li>
+            <li role="presentation" class="">
+                <a href="#EmployerComment" role="tab" id="EmployerComment-tab" data-toggle="tab" aria-controls="EmployerComment" aria-expanded="true">Employer Rating</a>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content scrollbar1">
+            <div role="tabpanel" class="tab-pane fade active in" id="Skill" aria-labelledby="Skill-tab">
+                <!--Skill Table-->
+                <div class="row">
+                    <br>
+                    <div class="row">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Skill Title</th>
+                                    <th>Skill Description</th>
+                                    <th>Proficiency</th>
+                                    <th>Category</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ int count = 0;}
+                                @foreach (Skill item in user.Skills.Where(x => x.status == "active").OrderBy(x => x.JobCategory.name))
+                                {
+                                    <tr>
+                                        <td>@(++count)</td>
+                                        <td>@item.name</td>
+                                        <td>@item.desc</td>
+                                        <td>@item.proficiency</td>
+                                        <td>@item.JobCategory.name</td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!--//Skill Table-->
+
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="EmployerComment" aria-labelledby="EmployerComment-tab">
+                <!--Review-->
+                @if (rating == null)
+                {
+                    <p>There is no any rating and comment.</p>
+                }
+                @foreach (Rating item in rating.OrderByDescending(x => x.ratingDate))
+                {
+                    string employerImg = "../noImage.png";
+                    if (item.Post.User.image != null)
+                    {
+                        employerImg = item.Post.User.image;
+                    }
+
+                    int dayAgo = (int)(DateTime.Now - item.ratingDate).TotalDays;
+
+                    <div class="row panel-info widget-shadow">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <br>
+                                    <div class="col-md-2">
+                                        <img src="~/Photo/Profile/@employerImg" style="display: block; margin-left: auto; margin-right: auto;" class="img-rounded" class="img-rounded" height="125" width="125">
+                                        @*<p class="text-secondary text-center"></p>*@
+                                    </div>
+                                    <div class="col-md-10">
+                                        <p>
+                                            <a class="float-left" href="#"><strong>@item.Post.User.userName</strong></a>
+                                            @for (int i = 1; i <= item.nOfFive; i++)
+                                            {
+                                                <span class="float-right"><i class="text-warning fa fa-star"></i></span>
+                                            }
+                                        </p>
+                                        <p><strong>Job: </strong>@item.Post.jobTitle</p>
+                                        <p><strong>Rate on :</strong> <i>@item.ratingDate (@dayAgo days Ago)</i></p>
+                                        <div class="clearfix"></div>
+                                        <p><strong>Comments: </strong>@item.comment</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <!--//Review-->
+            </div>
+
+
+        </div>
+        <div style="text-align: right">
+            <button class="btn btn-default" data-url="@Request.UrlReferrer">Back to Post</button>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

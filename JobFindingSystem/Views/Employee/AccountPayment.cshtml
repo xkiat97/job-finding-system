@@ -1,0 +1,74 @@
+﻿@model JobFindingSystem.Models.EmployeeAccountFeeVM
+
+@{
+    ViewBag.Title = "AccountPayment";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    Employee e = ViewBag.e;
+}
+@section header {
+
+}
+<div class="forms">
+    <h2 class="title1">@ViewBag.Title</h2>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <h4>Account package</h4>
+        </div>
+        @*Display account details*@
+        <div class="form-body">
+            <div class="row">
+                <h2 class="alert alert-info">
+                    @{ int days = (int)(e.expiredOn.Value - DateTime.Now).TotalDays;}
+                    Account will expire on: @e.expiredOn
+                    @if (days > 0)
+                    {
+                        <i>(left: @days Days)</i>
+                    }
+                </h2>
+            </div>
+            </div>
+            @*Selection*@
+            <div class="form-body">
+                <div class="alert-success" role="alert">
+                    @TempData["info"]
+                </div>
+                <form method="post" enctype="multipart/form-data" class="form-horizontal">
+                    <h3>Select your account subscribe package: </h3>
+                    <br>
+                    <table id="dataTable" class="table table-hover table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Account Subscribe package</th>
+                                <th>Duration</th>
+                                <th>Price</th>
+                                <th>Selection</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{string chkValue = "Checked"; }
+                            @foreach (Setting package in ViewBag.packages)
+                            {
+                                <tr>
+                                    <td>@package.settingStringShort</td>
+                                    <td>@package.settingStringInt Day(s)</td>
+                                    <td>RM @package.settingStringDouble</td>
+                                    <td>@Html.RadioButtonFor(m => m.packageID, package.settingID, new { @checked = chkValue })</td>
+                                </tr>
+                                chkValue = "";
+                            }
+                        </tbody>
+                    </table>
+                    <div class="col-sm-8"></div>
+                    <div class="col-sm-4" style="text-align: right; padding: 0;">
+                        <button class="btn btn-default" data-url="/Employee/EmployeeProfile">Back to Profile</button>
+                        <button class="btn btn-primary">Make Payment</button>
+                    </div>
+                    <br>
+                </form>
+            </div>
+        </div>
+    </div>
+    @section footer {
+
+
+    }

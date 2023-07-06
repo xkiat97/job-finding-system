@@ -1,0 +1,154 @@
+﻿@model EditPostVM
+
+@{
+    ViewBag.Title = "Edit Post";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    SelectList status = new SelectList(new List<SelectListItem>
+    {
+        new SelectListItem { Selected = ("-1" == Model.Status) ? true : false, Text = "- Select One -", Value = "-1"},
+        new SelectListItem { Selected = ("Saved" == Model.Status) ? true : false, Text = "saved", Value = "saved"},
+        new SelectListItem { Selected = ("Modified" == Model.Status) ? true : false, Text = "modified", Value = "modified"},
+        new SelectListItem { Selected = ("Expired" == Model.Status) ? true : false, Text = "expired", Value = "expired"},
+        new SelectListItem { Selected = ("Ban" == Model.Status) ? true : false, Text = "ban", Value = "ban"},
+        new SelectListItem { Selected = ("Deleted" == Model.Status) ? true : false, Text = "deleted", Value = "deleted"},
+    }, "Value", "Text", 1);
+
+    string min = DateTime.Today.ToString("yyyy-MM-dd");
+    string max = DateTime.Today.AddDays(30).ToString("yyyy-MM-dd");
+
+    string today = DateTime.Today.ToString();
+}
+
+<div class="forms">
+    <h2 class="title1">@ViewBag.Title</h2>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <h4>Post Information</h4>
+        </div>
+        <div class="form-body">
+            <form method="post" class="form-horizontal">
+
+                <div class="form-group">
+                    <div>
+                        @Html.LabelFor(m => m.Id, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                        <div class="col-sm-2" style="margin-right: 20px; text-align: right">
+                            <p class="col-sm-2 control-label">@Model.Id</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        @Html.LabelFor(m => m.Wage, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                        <div class="col-sm-4">
+                            <p class="col-sm-4 control-label" style="text-align: left">RM @Model.Wage</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Title, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        <p class="col-sm-6 control-label" style="text-align: left">@Model.Title</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Category, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6" data-url="/Admin/EditJob/@Model.Category" style=" cursor: pointer">
+                        <p class="col-sm-6 control-label" style="text-align: left">@Model.Category - <b>@Model.CategoryName </b></p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Description, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        <p class="col-sm-6 control-label" style="text-align: left">@Model.Description</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.PostedDate, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        <p class="col-sm-6 control-label" style="text-align: left">@Model.PostedDate</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.WorkingDate, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        <p class="col-sm-6 control-label" style="text-align: left">@Model.WorkingDate</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ExpiredDate, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6" style="margin-right: 60px; ">
+                        @Html.TextBoxFor(m => m.ExpiredDate, "{0:yyyy-MM-dd}", new { type = "date", min = min, max = max, Class = "col-sm-6 form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ModifiedDate, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @if (Model.ModifiedDate == null)
+                        {
+                            <p class="col-sm-6 control-label" style="text-align: left">-</p>
+                        }
+                        else
+                        {
+                            <p class="col-sm-6 control-label" style="text-align: left">@Model.ModifiedDate</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.PostedBy, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6" data-url="/Admin/UserProfile/@Model.PostedBy" style="cursor: pointer">
+                        <p class="col-sm-6 control-label" style="text-align: left">@Model.PostedBy - <b>@Model.PostedByEmail</b></p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Status, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @Html.DropDownListFor(m => m.Status, status, new { Class = "col-sm-6 form-control", style = "text-align: left; text-transform: uppercase;" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.Status, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <br>
+                <div class="col-sm-8"></div>
+                <div class="col-sm-4">
+                    <button class="btn btn-dark" data-url="/Admin/EditPost/@Model.Id">Reset</button>
+                    <button class="btn btn-default" data-url="/Admin/ListPost">Back to List</button>
+                    <button class="btn btn-primary">Update</button>
+                </div>
+                <br>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section footer {
+    <script>
+        // TODO: Enable validation on hidden inputs
+        $.validator.setDefaults({ ignore: "" });
+
+        var img = $("#prev")[0];
+        var src = img.src;
+
+        img.onerror = function () {
+            img.src = src;
+            $("#Photo").val("");
+        };
+
+        $("#Photo").change(function (e) {
+            var f = this.files[0];
+            img.src = f ? URL.createObjectURL(f) : "";
+        });
+    </script>
+}
+
+
+
+

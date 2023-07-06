@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "List Complainted Post";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    var posts = ViewBag.posts;
+}
+
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+    <style>
+        .table tr:hover td {
+            background-color: #999;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var table = $('#dataTable').DataTable();
+    });
+</script>
+
+<div class="forms">
+    <h2 class="title1">@ViewBag.Title</h2>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+
+            <div class="@TempData["color"]" style="text-align: center; font-weight:bold; font-size:20px; margin-bottom:10px">@TempData["info"]</div>
+
+            <table id="dataTable" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Post title</th>
+                        <th>Post by</th>
+                        <th>Number of report</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (Post p in posts)
+                    {
+                    <tr data-url="/Admin/PostDetail/@p.postID">
+                        <td>@p.jobTitle</td>
+                        <td>@p.User.userName</td>
+                        <td>@p.PostReports.Count()</td>
+                        <td>@p.status</td>
+                        <td>
+                            @if (p.status == "reported")
+                            {
+                                <a href="~/Admin/ComplaintedPost?postID=@p.postID" class="btn btn-danger">
+                                    Remove
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="~/Admin/ComplaintedPost?postID=@p.postID" class="btn btn-primary">
+                                    Restore
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Post title</th>
+                        <th>Post by</th>
+                        <th>Number of user complaint</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section footer {
+
+
+}
+
+
+

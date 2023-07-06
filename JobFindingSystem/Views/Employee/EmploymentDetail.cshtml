@@ -1,0 +1,161 @@
+﻿
+@{
+    ViewBag.Title = "Working detail";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    RequestedList rqst = ViewBag.requestedPost;
+    Post post = rqst.Post;
+    string imgUrl = post.User.image ?? "../noImage.png";
+    string imgUrl1 = post.jobImage ?? "../upload.png";
+
+}
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "lengthMenu": [[5, 25, -1], [5, 25, "All"]]
+        });
+    });
+</script>
+<div class="forms">
+    <h2 class="title1">@ViewBag.Title</h2>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms" style="background-color: #F1F1F1; border: none; box-shadow: none">
+
+
+        <!--Job Heading-->
+        <div class="row col-md-12 widget-shadow">
+            <br>
+            <div class="col-md-2">
+                <img src="~/Photo/Post/@imgUrl1" class="img-thumbnail">
+            </div>
+            <br>
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4>@post.jobTitle</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1">
+                        <div class="glyphicon glyphicon-map-marker"></div>
+                    </div>
+                    <div class="col-md-7">
+                        <div>@post.workingAddress</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1">
+                        <div class="glyphicon glyphicon-calendar"></div>
+                    </div>
+                    <div class="col-md-7">
+                        @post.workingDate.Value.ToString("dd-MMMM-yyyy")
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="row">
+                    <h6 style="color:#a6a6a6;">Posted on @post.postedDate</h6>
+                </div>
+                <div class="row">
+                    <div class="">MYR @rqst.wage/hr (Bided price)</div>
+                </div>
+                <div class="row">
+                    <div class="glyphicon glyphicon-briefcase"> @post.JobCategory.name</div>
+                </div>
+            </div>
+        </div>
+        <!--//Job Heading-->
+        <div class="row col-md-12 widget-shadow">
+            <div class="row">
+                <div class="col-md-6">
+
+                    @* JOB DESC *@
+                    <br>
+                    <div class="row">
+                        <h4>Job Description</h4>
+                    </div>
+                    <div class="row">
+                        <p>@post.jobDesc</p>
+                    </div>
+                    @* &JOB DESC *@
+
+                    <hr>
+                    @* WORKING DETAIL *@
+                    <br>
+                    <div class="row">
+                        <h4>Working time detail</h4>
+                    </div>
+                    <div class="row">
+                        <strong class="col-lg-4">Total duration (hour) </strong>
+                        <div class="col-lg-8">@post.workingDuration.Value.ToString("0.00")</div>
+                    </div>
+                    <div class="row">
+                        <strong class="col-lg-4">Total wage (MYR) </strong>
+                        <div class="col-lg-8">@post.workingTotalWage.Value.ToString("0.00")</div>
+                    </div>
+                    @{
+                        Rating r = post.Ratings.SingleOrDefault(x => x.userID == rqst.requestedEmployeeID);
+                    }
+                    <div class="row">
+                        <strong class="col-lg-4">My Rating </strong>
+                        <div class="col-lg-8">
+                            <p>
+                                @for (int i = 1; i <= r.nOfFive; i++)
+                                {
+                                    <span class="float-right"><i class="text-warning fa fa-star"></i></span>
+                                }
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <strong class="col-lg-4">Comment </strong>
+                        <div class="col-lg-8">@r.comment</div>
+                    </div>
+                    @* &WORKING DETAIL *@
+                </div>
+
+                <div class="col-md-6">
+                    @* EMPLOYER DETAIL *@
+                    <div class="row">
+                        <div class="col-md-12">
+                            <br />
+                            <div class="row">
+                                <h4>Employer detail</h4>
+                            </div>
+                            <div class="row">
+                                <img src="~/Photo/Profile/@imgUrl" width="250" height="250" class="img-circle center-block">
+                            </div>
+                            <div class="row">
+                                <strong class="col-lg-4">Name </strong>
+                                <div class="col-lg-8">@post.User.userName</div>
+                            </div>
+                            <div class="row">
+                                <strong class="col-lg-4">Contact </strong>
+                                <div class="col-lg-8">@post.User.phone</div>
+                            </div>
+                            <div class="row">
+                                <strong class="col-lg-4">Email </strong>
+                                <div class="col-lg-8">@post.User.email</div>
+                            </div>
+                            <div class="row">
+                                <strong class="col-lg-4">Post being reported</strong>
+                                <div class="col-lg-8">@post.User.Posts.Count(x => x.status == "reported") over @post.User.Posts.Count(x => x.status == "completed")</div>
+                            </div>
+                        </div>
+                    </div>
+                    @* &EMPLOYER DETAIL *@
+                </div>
+                <div class="col-sm-8"></div>
+
+                <div class="col-sm-4" style="text-align: right; padding: 0;">
+                    <button class="btn btn-default" data-url="/Employee/JobHistory">Back to List</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section footer{
+
+}

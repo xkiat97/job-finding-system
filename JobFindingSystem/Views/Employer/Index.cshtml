@@ -1,0 +1,251 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    string calendar = ViewBag.calendar;
+
+}
+@section header{
+    <!-- Styles -->
+    <style>
+        #chartExpenserOnYear, #chartPostsStatus {
+            width: 100%;
+            height: 300px;
+            font-size: 11px;
+        }
+
+        .amcharts-pie-slice {
+            transform: scale(1);
+            transform-origin: 50% 50%;
+            transition-duration: 0.3s;
+            transition: all .3s ease-out;
+            -webkit-transition: all .3s ease-out;
+            -moz-transition: all .3s ease-out;
+            -o-transition: all .3s ease-out;
+            cursor: pointer;
+            box-shadow: 0 0 30px 0 #000;
+        }
+
+            .amcharts-pie-slice:hover {
+                transform: scale(1.1);
+                filter: url(#shadow);
+            }
+    </style>
+
+    <!-- Resources -->
+    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script src="https://www.amcharts.com/lib/3/pie.js"></script>
+    <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+    <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+
+    <link href="~/TemplateSources/Calendar/fullcalendar.min.css" rel="stylesheet" />
+    <link href="~/TemplateSources/Calendar/fullcalendar.print.css" rel="stylesheet" media='print' />
+
+    <style>
+        #calendar {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+    </style>
+}
+@* Calendar session *@
+<script src="~/TemplateSources/Calendar/moment.min.js"></script>
+<script src="~/TemplateSources/Calendar/jquery.min.js"></script>
+<script src="~/TemplateSources/Calendar/fullcalendar.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay,listMonth'
+            },
+            defaultDate: '@DateTime.Today.ToString("yyyy-MM-dd")',
+            navLinks: true, // can click day/week names to navigate views
+            businessHours: true, // display business hours
+            events: [
+                @Html.Raw(calendar)
+            //background for today date
+            {
+                start: '@DateTime.Today.ToString("yyyy-MM-dd")',
+                overlap: false,
+                rendering: 'background',
+                color: '#ff9f89'
+            }]
+        });
+
+    });
+</script>
+
+<!-- //requried-jsfiles-for owl -->
+<div class="col_3">
+    <div class="col-md-3 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-dollar icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>MYR @ViewBag.item1.ToString("0.00")</strong></h5>
+                <span>Employment</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-laptop user1 icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>@ViewBag.item4 Posts</strong></h5>
+                <span>Post complaint</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-money user2 icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>MYR @ViewBag.item3.ToString("0.00")</strong></h5>
+                <span>Post Fee</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-pie-chart dollar1 icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>@ViewBag.item2 Posts</strong></h5>
+                <span>No Bider</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 widget">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-users dollar2 icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>@ViewBag.item5 Jobs</strong></h5>
+                <span>Completed Job</span>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"> </div>
+</div>
+
+<div class="row-one widgettable">
+    <div class="col-md-7 content-top-2 card">
+        <div class="agileinfo-cdr">
+            <div class="card-header">
+                <h3>My Revenue on Year @DateTime.Today.ToString("yyyy")</h3>
+            </div>
+
+            <div id="chartExpenserOnYear"></div>
+
+        </div>
+    </div>
+
+    <div class="col-md-5 content-top-2 card">
+        <div class="agileinfo-cdr">
+            <div class="card-header">
+                <h3>My Posts status</h3>
+            </div>
+
+            <div id="chartPostsStatus"></div>
+
+        </div>
+    </div>
+    <div class="clearfix"> </div>
+</div>
+
+<div class="middle-content">
+    <h3 class="title1">My schedule</h3>
+    <div id='calendar'></div>
+</div>
+@section footer {
+    @{
+        User u = ViewBag.u;
+        int id = u.Id;
+    }
+    @* Employer post and employment *@
+    <script>
+        let url = "/Report/DataEmployerPostNEmploy";
+        let param = {"employerID":@id};
+
+        $.getJSON(url, param, function () {
+        }).done(function (json) {
+            var chart = AmCharts.makeChart("chartExpenserOnYear", {
+                "theme": "none",
+                "type": "serial",
+                "dataProvider": json,
+                "valueAxes": [{
+                    "stackType": "3d",
+                    "unit": "(MYR)",
+                    "position": "left",
+                    "title": "RM",
+                }],
+                "startDuration": 1,
+                "graphs": [{
+                    "balloonText": " [[category]]: <b>[[value]]</b>",
+                    "fillAlphas": 0.9,
+                    "lineAlpha": 0.2,
+                    "title": "Total post fee",
+                    "type": "column",
+                    "valueField": "postFee"
+                }, {
+                    "balloonText": "[[category]]: <b>[[value]]</b>",
+                    "fillAlphas": 0.9,
+                    "lineAlpha": 0.2,
+                    "title": "Total employ fee",
+                    "type": "column",
+                    "valueField": "employFee"
+                }],
+                "plotAreaFillAlphas": 0.1,
+                "depth3D": 60,
+                "angle": 30,
+                "categoryField": "date",
+                "categoryAxis": {
+                    "gridPosition": "start"
+                },
+                "export": {
+                    "enabled": true
+                }
+            });
+            jQuery('.chart-input').off().on('input change', function () {
+                var property = jQuery(this).data('property');
+                var target = chart;
+                chart.startDuration = 0;
+
+                if (property == 'topRadius') {
+                    target = chart.graphs[0];
+                    if (this.value == 0) {
+                        this.value = undefined;
+                    }
+                }
+
+                target[property] = this.value;
+                chart.validateNow();
+            });
+        });
+    </script>
+    @* &Employer post and employment *@
+
+    @* Post status *@
+    <script>
+        url = "/Report/DataPostingStatus";
+
+        $.getJSON(url, param, function () {
+        }).done(function (json) {
+            var chart = AmCharts.makeChart("chartPostsStatus", {
+                "type": "pie",
+                "theme": "none",
+                "dataProvider": json,
+                "valueField": "quantity",
+                "titleField": "status",
+                "balloon": {
+                    "fixedPosition": true
+                },
+                "export": {
+                    "enabled": true
+                }
+            });
+        });
+    </script>
+    @* &post status *@
+}

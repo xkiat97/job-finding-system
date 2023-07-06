@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "Job available";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+    <style>
+        #ads:hover {
+            background-color: #d9d9d9;
+            cursor: pointer;
+        }
+    </style>
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        });
+    });
+</script>
+<div class="forms">
+    <div class="row">
+        <div class="col-md-2">
+            <h2 class="title1">@ViewBag.Title</h2>
+        </div>
+    </div>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <table id="dataTable" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Jobs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Post post in ViewBag.Posts)
+                    {
+                        string imgUrl = post.jobImage ?? "../upload.png";
+
+                        <tr>
+                            <td>
+                                <div class="row widget-shadow" onclick="location.href='JobDetail?postid=@post.postID';" id="ads">
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <img src="~/Photo/Post/@imgUrl" class="img-thumbnail" style="width:300px; height:300px;">
+                                        </div>
+                                        <div class="col-md-9">
+                                            <i class="row col-md-12"><span class="pull-right">Posted on: @post.postedDate</span></i>
+                                            <div class="row col-md-12">
+                                                <div class="col-md-6">
+                                                    <h2 class="row col-md-12"><b>@post.jobTitle</b></h2>
+                                                    <div class="row col-md-12 text-muted">@post.jobDesc</div>
+                                                    <div class="row"><div class="col-md-12 fa fa-check-square-o"> Biding close on @post.workingDate.Value.AddDays(-(int)ViewBag.dayBeforeWork).ToString("dd-MMMM-yyyy")</div></div>
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="col-md-12">
+                                                        <div class="panel panel-primary">
+                                                            <div class="panel-heading">
+                                                                <h3 class="panel-title">Working Information</h3>
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <div class="row"><div class="fa fa-briefcase"> @post.JobCategory.name</div></div>
+                                                                <div class="row"><div class="fa fa-map-marker"> @post.workingAddress</div></div>
+                                                                <div class="row"><div class="fa fa-calendar"> @post.workingDate.Value.ToString("dd-MMMM-yyyy")</div></div>
+                                                                <div class="row"><div class="fa fa-usd"> MYR @post.wage/HR</div></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section footer {
+
+
+}

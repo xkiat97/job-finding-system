@@ -1,0 +1,85 @@
+﻿@model IEnumerable<User>
+
+@{
+    ViewBag.Title = "List Account";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+    <style>
+        .table tr:hover td {
+            background-color: #999;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var table = $('#dataTable').DataTable();
+    });
+</script>
+
+<div class="forms">
+    <h2 class="title1">@ViewBag.Title</h2>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <div class="@TempData["color"]" style="text-align: center; font-weight:bold; font-size:20px; margin-bottom:10px">@TempData["info"]</div>
+
+            <button data-url="/Account/AddAccount"><i class="fa fa-edit"></i> Add Account</button>
+            <br>
+            <br>
+
+            <table id="dataTable" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Login email</th>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Last login</th>
+                        <th>Login failure</th>
+                        <th>Login information</th>
+                        <th>Registered on</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var u in Model)
+                    {
+                        int lastLoginDays = (int) (DateTime.Now - u.lastLogin.Value).TotalDays;
+                        <tr data-url="/Admin/UserProfile/@u.Id">
+                            <td>@u.email</td>
+                            <td>@u.userName</td>
+                            <td>@u.role</td>
+                            <td>@lastLoginDays Days</td>
+                            <td>@u.loginFailure</td>
+                            <td>@u.ipAddress</td>
+                            <td>@u.registeredDate</td>
+                            <td>@u.status</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Login email</th>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Last login</th>
+                        <th>Login failure</th>
+                        <th>Login information</th>
+                        <th>Registered on</th>
+                        <th>Status</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section footer {
+
+
+}

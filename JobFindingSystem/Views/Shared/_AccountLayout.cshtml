@@ -1,0 +1,202 @@
+﻿<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="~/TemplateSources/AccountSources/css/bootstrap.css" rel='stylesheet' type='text/css' />
+
+    <!-- Custom CSS -->
+    <link href="~/TemplateSources/AccountSources/css/style.css" rel='stylesheet' type='text/css' />
+
+    <!-- font-awesome icons CSS -->
+    <link href="~/TemplateSources/AccountSources/css/font-awesome.css" rel="stylesheet">
+    <!-- //font-awesome icons CSS-->
+    <!-- side nav css file -->
+    <link href='~/TemplateSources/AccountSources/css/SidebarNav.min.css' media='all' rel='stylesheet' type='text/css' />
+    <!-- //side nav css file -->
+    <!-- js-->
+    <script src="~/TemplateSources/AccountSources/js/jquery-1.11.1.min.js"></script>
+    <script src="~/TemplateSources/AccountSources/js/modernizr.custom.js"></script>
+
+    <!--webfonts-->
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i&amp;subset=cyrillic,cyrillic-ext,latin-ext" rel="stylesheet">
+    <!--//webfonts-->
+    <!-- Metis Menu -->
+    <script src="~/TemplateSources/AccountSources/js/metisMenu.min.js"></script>
+    <script src="~/TemplateSources/AccountSources/js/custom.js"></script>
+    <link href="~/TemplateSources/AccountSources/css/custom.css" rel="stylesheet">
+    <!--//Metis Menu -->
+
+    @RenderSection("header", false)
+</head>
+<body class="cbp-spmenu-push">
+    <div class="main-content">
+        <div class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+            @{
+                string profileUrl = "#";
+                if (User.IsInRole("Admin"))
+                {
+                    ViewBag.role = "Admin";
+                    profileUrl = "Admin/AdminProfile";
+                    @Html.Partial("_AdminView")
+
+                }else if (User.IsInRole("Employee"))
+                {
+                    ViewBag.role = "Employee";
+                    profileUrl = "Employee/EmployeeProfile";
+                    @Html.Partial("_EmployeeView")
+
+                }
+                else if (User.IsInRole("Employer"))
+                {
+                    ViewBag.role = "Employer";
+                    profileUrl = "Employer/EmployerProfile";
+                    @Html.Partial("_EmployerView")
+
+                }
+                else
+                {
+                    ViewBag.role = "Unknown";
+                    @Html.Partial("_AdminView")
+                }
+            }
+        </div>
+        <!--left-fixed -navigation-->
+        <!-- header-starts -->
+        <div class="sticky-header header-section ">
+            <div class="header-left">
+                <!--toggle button start-->
+                <button id="showLeftPush"><i class="fa fa-bars"></i></button>
+                <!--toggle button end-->
+                @Html.Partial("_NotificationBar")
+                <!--notification menu end -->
+                <div class="clearfix"> </div>
+            </div>
+            <div class="header-right">
+
+                <!--search-box-->
+                <div class="search-box"">
+                    <form class="input">
+                        <input class="sb-search-input input__field--madoka" placeholder="Search..." type="search" id="input-31" />
+                        <label class="input__label" for="input-31">
+                            <svg class="graphic" width="100%" height="100%" viewBox="0 0 404 77" preserveAspectRatio="none">
+                                <path d="m0,0l404,0l0,77l-404,0l0,-77z" />
+                            </svg>
+                        </label>
+                    </form>
+                </div><!--//end-search-box-->
+
+                <div class="profile_details">
+                    <ul>
+                        <li class="dropdown profile_details_drop">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                @{ 
+                                    string profileImg = "noImage.png";
+                                    if (Session["PhotoURL"] != null)
+                                    {
+                                        profileImg = (string)Session["PhotoURL"];
+                                    }
+                                }
+                                <div class="profile_img">
+                                    @if (profileImg != "noImage.png")
+                                    {
+                                        <span class="prfil-img"><img src="~/Photo/Profile/@profileImg" alt="" width="50" height="50"> </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="prfil-img"><img src="~/Photo/@profileImg" alt="" width="50" height="50"> </span>
+                                    }
+                                    <div class="user-name">
+                                        @if (User.Identity.Name.Length > 9)
+                                        {
+                                            <p>@User.Identity.Name.Substring(0, 9)</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="text-align: left">@User.Identity.Name</p>
+                                        }
+                                        <span>@ViewBag.role</span>
+                                    </div>
+                                    <i class="fa fa-angle-down lnr"></i>
+                                    <i class="fa fa-angle-up lnr"></i>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu drp-mnu">
+                                <li> <a href="~/#"><i class="fa fa-cog"></i> Settings</a> </li>
+                                <li> <a href="~/@profileUrl"><i class="fa fa-user"></i> Profile</a> </li>
+                                <li> <a href="~/Account/Logout"><i class="fa fa-sign-out"></i> Logout</a> </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+        <div id="page-wrapper" style="min-height:100vh;">
+            <div class="main-page">
+                <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+                <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+                <script src="~/Scripts/jquery.validate.min.js"></script>
+                <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+                @RenderBody()
+            </div>
+        </div>
+        <!--footer-->
+        <div class="footer">
+            <p>&copy; @DateTime.Now.Year My Job Company. All Rights Reserved | Design by <a href="https://w3layouts.com/" target="_blank">w3layouts</a></p>
+        </div>
+        <!--//footer-->
+    </div>
+
+    <!-- Classie --><!-- for toggle left push menu script -->
+    <script src="~/TemplateSources/AccountSources/js/classie.js"></script>
+    <script>
+        var menuLeft = document.getElementById('cbp-spmenu-s1'),
+            showLeftPush = document.getElementById('showLeftPush'),
+            body = document.body;
+
+        showLeftPush.onclick = function () {
+            classie.toggle(this, 'active');
+            classie.toggle(body, 'cbp-spmenu-push-toright');
+            classie.toggle(menuLeft, 'cbp-spmenu-open');
+            disableOther('showLeftPush');
+        };
+
+
+        function disableOther(button) {
+            if (button !== 'showLeftPush') {
+                classie.toggle(showLeftPush, 'disabled');
+            }
+        }
+    </script>
+    <!-- //Classie --><!-- //for toggle left push menu script -->
+    <!--scrolling js-->
+    <script src="~/TemplateSources/AccountSources/js/jquery.nicescroll.js"></script>
+    <script src="~/TemplateSources/AccountSources/js/scripts.js"></script>
+    <!--//scrolling js-->
+    <!-- side nav js -->
+    <script src='~/TemplateSources/AccountSources/js/SidebarNav.min.js' type='text/javascript'></script>
+    <script>
+        $('.sidebar-menu').SidebarNav()
+    </script>
+    <!-- //side nav js -->
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/TemplateSources/AccountSources/js/bootstrap.js"></script>
+    <!-- //Bootstrap Core JavaScript -->
+    <script src="~/Scripts/script.js"></script>
+
+    @RenderSection("footer", false)
+</body>
+</html>

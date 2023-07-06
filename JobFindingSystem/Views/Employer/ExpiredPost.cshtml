@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "Expired Post";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+    <style>
+        #ads:hover {
+            background-color: #d9d9d9;
+            cursor: pointer;
+        }
+    </style>
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        });
+    });
+</script>
+<div class="forms">
+    <div class="row">
+        <div class="col-md-2">
+            <h2 class="title1">@ViewBag.Title</h2>
+        </div>
+    </div>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <table id="dataTable" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Post</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Post post in ViewBag.Posts)
+                    {
+                        string imgUrl = post.jobImage ?? "../upload.png";
+                        string postedDate = post.postedDate == null ? DateTime.Now.ToString("dd-MMMM-yyyy hh:mm tt") : "Not Available";
+                        string expDate = "Expired";
+                        string style = "alert alert-warning";
+                        var expDate1 = post.postedDate;
+
+                        if (expDate1 != null)
+                        {
+                            int days = 0;
+                            foreach (PostFee fee in post.PostFees)
+                            {
+                                days += fee.durationDay.Value;
+                            }
+                            DateTime date = expDate1.Value.AddDays(days);
+                            if (date < DateTime.Now)
+                            {
+                                //expDate = "<span style=\"color: red;\">" + expDate1.ToString("dd-MMMM-yyyy hh:mm tt") + "</span>";
+                                expDate = date.ToString("dd-MMMM-yyyy hh:mm tt");
+                                style = "alert alert-danger";
+
+                            }
+                            else
+                            {
+                                expDate = date.ToString("dd-MMMM-yyyy hh:mm tt");
+                                style = "alert alert-success";
+
+                            }
+                        }
+                        <tr class="@style">
+                            <td>
+                                <div class="row widget-shadow" onclick="location.href='JobDetail';" id="ads">
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <img src="~/Photo/Post/@imgUrl" class="img-thumbnail">
+                                        </div>
+                                        <div class="col-md-10">
+                                            <h4 class="row col-md-12"><b>@post.jobTitle</b></h4>
+                                            <div class="row col-md-12 text-muted">@post.jobDesc</div>
+                                            <div class="row">
+                                                <div class="col-md-2 fa fa-briefcase"> @post.JobCategory.name</div>
+                                                <div class="col-md-4 fa fa-calendar"> @post.workingDate</div>
+                                                <div class="col-md-2 fa fa-usd"> MYR @post.wage/HR</div>
+                                                <div class="col-md-4 fa fa-check-square-o"> @expDate</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 fa fa-map-marker"> @post.workingAddress</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section footer {
+
+
+}

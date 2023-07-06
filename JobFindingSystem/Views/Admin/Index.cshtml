@@ -1,0 +1,239 @@
+﻿
+@{
+    ViewBag.Title = "Post Dashboard";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+@section header{
+    <!-- Styles -->
+    <style>
+        #chartdiv, #chartUserActivation {
+            width: 100%;
+            height: 500px;
+            font-size: 11px;
+        }
+    </style>
+
+    <!-- Resources -->
+    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+    <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+}
+
+<!-- //requried-jsfiles-for owl -->
+<div class="col_3">
+    <div class="col-md-3 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-dollar icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>MYR @ViewBag.item1.ToString("0.00")</strong></h5>
+                <span>Total Profit</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-laptop user1 icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>@ViewBag.item2</strong></h5>
+                <span>Repored Users</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-money user2 icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>MYR @ViewBag.item3.ToString("0.00")</strong></h5>
+                <span>Transaction (Job)</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-pie-chart dollar1 icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>@ViewBag.item4 Jobs</strong></h5>
+                <span>Pending Job</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 widget">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-users dollar2 icon-rounded"></i>
+            <div class="stats">
+                <h5><strong>@ViewBag.item5</strong></h5>
+                <span>New users</span>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"> </div>
+</div>
+
+<div class="row-one widgettable">
+    <div class="col-md-12 content-top-2 card">
+        <div class="agileinfo-cdr">
+            <div class="card-header">
+                <h3>My Revenue on Year @DateTime.Today.ToString("yyyy")</h3>
+            </div>
+
+            <div id="chartdiv"></div>
+
+        </div>
+    </div>
+
+    @*<div class="col-md-5 content-top-2 card">
+        <div class="agileinfo-cdr">
+            <div class="card-header">
+                <h3>User Activation</h3>
+            </div>
+
+            <div id="chartUserActivation"></div>
+
+        </div>
+    </div>*@
+    <div class="clearfix"> </div>
+</div>
+
+<div class="middle-content">
+</div>
+@section footer {
+    @* admin profit *@
+    <script>
+        let url = "/Report/DataAdminProfit";
+        let param = {};
+
+        $.getJSON(url, param, function () {
+        }).done(function (json) {
+            var chart = AmCharts.makeChart("chartdiv", {
+                "type": "serial",
+                "theme": "none",
+                "legend": {
+                    "useGraphSettings": true
+                },
+                "dataProvider": json,
+                "synchronizeGrid": true,
+                "valueAxes": [{
+                    "id": "v1",
+                    "axisColor": "#FF6600",
+                    "axisThickness": 2,
+                    "axisAlpha": 1,
+                    "position": "left"
+                }, {
+                    "id": "v2",
+                    "axisColor": "#FCD202",
+                    "axisThickness": 2,
+                    "axisAlpha": 1,
+                    "position": "right"
+                }, {
+                    "id": "v3",
+                    "axisColor": "#B0DE09",
+                    "axisThickness": 2,
+                    "gridAlpha": 0,
+                    "offset": 50,
+                    "axisAlpha": 1,
+                    "position": "left"
+                }],
+                "graphs": [{
+                    "valueAxis": "v1",
+                    "lineColor": "#FF6600",
+                    "bullet": "round",
+                    "bulletBorderThickness": 1,
+                    "hideBulletsCount": 30,
+                    "title": "Employment",
+                    "valueField": "employFee",
+                    "fillAlphas": 0
+                }, {
+                    "valueAxis": "v2",
+                    "lineColor": "#FCD202",
+                    "bullet": "square",
+                    "bulletBorderThickness": 1,
+                    "hideBulletsCount": 30,
+                    "title": "Post fee",
+                    "valueField": "postFee",
+                    "fillAlphas": 0
+                }, {
+                    "valueAxis": "v3",
+                    "lineColor": "#B0DE09",
+                    "bullet": "triangleUp",
+                    "bulletBorderThickness": 1,
+                    "hideBulletsCount": 30,
+                    "title": "Account fee",
+                    "valueField": "accountFee",
+                    "fillAlphas": 0
+                }],
+                "chartScrollbar": {},
+                "chartCursor": {
+                    "cursorPosition": "mouse"
+                },
+                "categoryField": "date",
+                "categoryAxis": {
+                    "parseDates": true,
+                    "axisColor": "#DADADA",
+                    "minorGridEnabled": true
+                },
+                "export": {
+                    "enabled": true,
+                    "position": "bottom-right"
+                }
+            });
+
+            chart.addListener("dataUpdated", zoomChart);
+            zoomChart();
+
+            function zoomChart() {
+                chart.zoomToIndexes(chart.dataProvider.length - 20, chart.dataProvider.length - 1);
+            }
+        });
+    </script>
+    @* &admin profit *@
+
+    @* User Activation *@
+    @*<script>
+        var value = 27;
+            var chart = AmCharts.makeChart("chartdiv", {
+                "theme": "none",
+                "type": "gauge",
+                "axes": [{
+                    "topTextFontSize": 20,
+                    "topTextYOffset": 70,
+                    "topText": value,
+                    "axisColor": "#31d6ea",
+                    "axisThickness": 1,
+                    "endValue": 100,
+                    "gridInside": true,
+                    "inside": true,
+                    "radius": "50%",
+                    "valueInterval": 10,
+                    "tickColor": "#67b7dc",
+                    "startAngle": -90,
+                    "endAngle": 90,
+                    "unit": "%",
+                    "bandOutlineAlpha": 0,
+                    "bands": [{
+                        "color": "#0080ff",
+                        "endValue": 100,
+                        "innerRadius": "105%",
+                        "radius": "170%",
+                        "gradientRatio": [0.5, 0, -0.5],
+                        "startValue": 0
+                    }, {
+                        "color": "#3cd3a3",
+                        "endValue": value,
+                        "innerRadius": "105%",
+                        "radius": "170%",
+                        "gradientRatio": [0.5, 0, -0.5],
+                        "startValue": 0
+                    }]
+                }],
+                "arrows": [{
+                    "alpha": 1,
+                    "innerRadius": "35%",
+                    "nailRadius": 0,
+                    "radius": "170%",
+                    "value":value
+                }]
+            });
+    </script>*@
+    @* &User Activation *@
+}

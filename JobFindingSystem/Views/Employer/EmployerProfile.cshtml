@@ -1,0 +1,141 @@
+﻿@{
+    ViewBag.Title = "Employer Profile";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    User user = ViewBag.u;
+
+    string imgUrl = "../noImage.png";
+    if (user.image != null)
+    {
+        imgUrl = user.image;
+    }
+}
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+
+    <style>
+        #chartdiv {
+            width: 100%;
+            height: 200px;
+            font-size: 11px;
+        }
+    </style>
+    <!-- Resources -->
+    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+    <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.dataTable').DataTable({
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        });
+    });
+</script>
+<div class="forms">
+    <div class="alert-success" role="alert">
+        <div class="@TempData["color"]" style="text-align: center; font-weight:bold; font-size:20px; margin-bottom:10px">@TempData["info"]</div>
+    </div>
+    <br />
+    <h2 class="title1">@ViewBag.Title</h2>
+    <!--Profile Heading-->
+    <div class="row panel-info widget-shadow">
+        <br>
+        <div class="row">
+            <div class="col-md-4">
+                <img src="~/Photo/Profile/@imgUrl" style="display: block; margin-left: auto; margin-right: auto;" class="img-rounded" height="300" width="200">
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div><strong>Name: </strong>@user.userName</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-justify"><strong>Address: </strong>@user.address</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="row col-md-6">
+                        <div class="glyphicon glyphicon-earphone"> (60) @user.phone</div>
+                    </div>
+                    <div class="row col-md-6">
+                        <div class="glyphicon glyphicon-envelope"> @user.email</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <strong>Overall job category of posts</strong>
+                    <div id="chartdiv"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+                <a href="~/Employer/UpdateProfile" class="btn-lg btn-success pull-right">Edit</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section footer{
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    @{
+        User u = ViewBag.u;
+        int id = u.Id;
+    }
+    @* employer post and job category *@
+    <script>
+        let url = "/Report/DataEmployerPostNJobCategory";
+        let param = {"employerID":@id};
+        var dataFile;
+
+        $.getJSON(url, param, function () {
+        }).done(function (json) {
+            var chart = AmCharts.makeChart("chartdiv", {
+                "type": "serial",
+                "theme": "none",
+                "dataProvider": json,
+                "valueAxes": [{
+                    "gridColor": "#FFFFFF",
+                    "gridAlpha": 0.2,
+                    "dashLength": 0
+                }],
+                "gridAboveGraphs": true,
+                "startDuration": 1,
+                "graphs": [{
+                    "balloonText": "[[category]]: <b>[[value]]</b>",
+                    "fillAlphas": 0.8,
+                    "lineAlpha": 0.2,
+                    "type": "column",
+                    "valueField": "number"
+                }],
+                "chartCursor": {
+                    "categoryBalloonEnabled": false,
+                    "cursorAlpha": 0,
+                    "zoomable": false
+                },
+                "categoryField": "jobcategory",
+                "categoryAxis": {
+                    "gridPosition": "start",
+                    "gridAlpha": 0,
+                    "tickPosition": "start",
+                    "tickLength": 20
+                },
+                "export": {
+                    "enabled": true
+                }
+
+            });
+        });
+
+    </script>
+    @* employer post and job category *@
+
+}

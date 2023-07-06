@@ -1,0 +1,78 @@
+﻿@using JobFindingSystem.Models
+@model JobFindingSystem.Models.EmployeeSkill
+@{
+    ViewBag.Title = "Update Skill";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+<link href="~/Content/jquery-customselect.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-customselect.js"></script>
+<div class="forms">
+    <h2 class="title1">@ViewBag.Title</h2>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <h4>Employee Skill Information</h4>
+        </div>
+        <div class="form-body">
+            <form method="post" enctype="multipart/form-data" class="form-horizontal">
+                @Html.HiddenFor(m => m.ID)
+                <div class="form-group">
+                    @Html.LabelFor(m => m.name, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.name, new { maxlength = 50, required = "", autofocus = "", Class = "form-control1 col-sm-6", placeholder = "Enter your skill title" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.name, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.proficiency, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @Html.DropDownListFor(m => m.proficiency,
+                         new SelectList(Enum.GetValues(typeof(Proficiency))),
+                         new { Class = "form-control col-sm-6 seachSelector"})
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.proficiency, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.desc, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @Html.TextAreaFor(m => m.desc, new { maxlength = 205, required = "", Class = "form-control1 col-sm-6", placeholder = "Enter your skill description" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.desc, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.jobCategory, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @Html.DropDownListFor(x => x.jobCategory, new SelectList(ViewBag.JobCategory, "jobID", "name"), new { Class = "form-control col-sm-6 seachSelector" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.jobCategory, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="col-sm-8"></div>
+
+                <div class="col-sm-12" style="margin-bottom: 20px; text-align: right">
+                    <button class="btn btn-dark" type="reset">Reset</button>
+                    <button class="btn btn-default" data-url="/Employee/EmployeeProfile">Back to Profile</button>
+                    <button class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section footer {
+    <script>
+        $(function () {
+            $(".seachSelector").customselect();
+        });
+    </script>
+}
+

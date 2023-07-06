@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewBag.Title = "Employment Record";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    var posts = ViewBag.posts;
+}
+
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+    <style>
+        .table tr:hover td {
+            background-color: #999;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var table = $('#dataTable').DataTable();
+    });
+</script>
+
+<div class="forms">
+    <h2 class="title1">@ViewBag.Title</h2>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+
+            <div class="@TempData["color"]" style="text-align: center; font-weight:bold; font-size:20px; margin-bottom:10px">@TempData["info"]</div>
+
+            <table id="dataTable" class="table table-hover table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Job title</th>
+                        <th>Employer name</th>
+                        <th>Posting duration</th>
+                        <th>Posting fee</th>
+                        <th>Total biders</th>
+                        <th>Employee name</th>
+                        <th>Woring time</th>
+                        <th>Woring wage</th>
+                        <th>Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Post item in ViewBag.rpt)
+                    {
+                        double postDuration = Math.Round((double)item.PostFees.Sum(x => x.durationDay).Value,2);
+                        double postFee = Math.Round((double)item.PostFees.Sum(x => x.fee).Value,2);
+                    <tr data-url="/Admin/EmploymentDetail?postID=@item.postID">
+                        <td>@item.jobTitle</td>
+                        <td>@item.User.userName</td>
+                        <td>@postDuration.ToString("0.00 hrs")</td>
+                        <td>@postFee.ToString("RM 0.00")</td>
+                        <td>@item.RequestedLists.Count()</td>
+                        <td>@item.RequestedLists.SingleOrDefault(x => x.status == "success").User.userName</td>
+                        <td>@item.workingDuration.Value.ToString("0.00 hrs")</td>
+                        <td>@item.workingTotalWage.Value.ToString("RM 0.00")</td>
+                        <td>@item.Ratings.FirstOrDefault().nOfFive over 5</td>
+                    </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Job title</th>
+                        <th>Employer name</th>
+                        <th>Posting duration</th>
+                        <th>Posting fee</th>
+                        <th>Total biders</th>
+                        <th>Employee name</th>
+                        <th>Woring time</th>
+                        <th>Woring wage</th>
+                        <th>Rating</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section footer {
+
+
+}

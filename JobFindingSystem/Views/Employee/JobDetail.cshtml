@@ -1,0 +1,264 @@
+﻿@model JobFindingSystem.Models.PostReportVM
+@{
+    ViewBag.Title = "Job Detail";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    Post post = ViewBag.post;
+    User self = ViewBag.self;
+    string imgUrl = post.jobImage ?? "../upload.png";
+
+    RequestedList myBiding = post.RequestedLists.SingleOrDefault(x => x.User.email == User.Identity.Name);
+    string bidingDate = "Not bid yet";
+    string bidingWage = "Not bid yet";
+    if (myBiding != null)
+    {
+        bidingDate = myBiding.requestedDate.ToString("dd-MMMM-yyyy hh:mm tt");
+        bidingWage = "MYR " + myBiding.wage.ToString();
+    }
+
+}
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "lengthMenu": [[5, 25, -1], [5, 25, "All"]]
+        });
+    });
+</script>
+<div class="forms">
+        <div class="row">
+            <div class="col-md-2">
+                <h2 class="title1">@ViewBag.Title</h2>
+            </div>
+        </div>
+        <div class="alert-success" role="alert">
+            @TempData["info"]
+        </div>
+
+        <div class="form-grids row widget-shadow" data-example-id="basic-forms" style="background-color: #F1F1F1; border: none; box-shadow: none">
+        <!--Job Heading-->
+        <div class="row col-md-12 widget-shadow">
+            <br>
+            <div class="col-md-2">
+                <img src="~/Photo/Post/@imgUrl" class="img-thumbnail">
+            </div>
+            <br>
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4>@post.jobTitle</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1">
+                        <div class="glyphicon glyphicon-map-marker"></div>
+                    </div>
+                    <div class="col-md-7">
+                        <div>@post.workingAddress</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1">
+                        <div class="glyphicon glyphicon-calendar"></div>
+                    </div>
+                    <div class="col-md-7">
+                        @post.workingDate.Value.ToString("dd-MMMM-yyyy")
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="row">
+                    <h6 style="color:#a6a6a6;">Posted on @post.postedDate</h6>
+                </div>
+                <div class="row">
+                    <div class="">MYR @post.wage/hr</div>
+                </div>
+                <div class="row">
+                    <div class="glyphicon glyphicon-briefcase"> @post.JobCategory.name</div>
+                </div>
+            </div>
+        </div>
+        <!--//Job Heading-->
+        <!--Job Desc-->
+        <div class="row col-md-12 widget-shadow">
+            <div class="row">
+                <div class="col-md-6">
+                    <br>
+                    <div class="row">
+                        <h4>Job Description</h4>
+                    </div>
+                    <div class="row" style="min-height:250px;">
+                        <p>@post.jobDesc</p>
+                    </div>
+
+                    <br>
+                    <div class="row">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Your biding information</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-4"><strong>Biding Date</strong></div>
+                                    <div class="col-sm-8">@bidingDate</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4"><strong>Wage</strong></div>
+                                    <div class="col-sm-8">@bidingWage</div>
+                                </div>
+                                @if (!ViewBag.isBidClosed)
+	                            {
+                                    <form method="post" action="~/Employee/AddNewBid">
+                                        <input type="hidden" value="@post.postID" name="postID" />
+                                        <div class="row">
+                                            <div class="col-sm-4"><strong>New Wage MYR/HR</strong></div>
+                                            <div class="col-sm-8">RM <input id="wage" name="wage" type="number" min="1" max="@post.wage" value="@post.wage" /></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4"></div>
+                                            <div class="col-sm-4">
+                                                @if (!ViewBag.hasReported) // if this user has not reported yet
+                                                {
+                                                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#modalPostReport">Report</button>
+                                                }
+                                                else
+                                                {
+                                                    <a href="~/Employee/RemoveReport?postID=@post.postID" class="btn btn-danger btn-block">DEL Report</a>
+                                                }
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <button type="submit" class="btn btn-success btn-block">Bid It</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-info aligncenter">BIDING CLOSED</div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <br>
+                    <div class="row">
+                        <h4>Other biders</h4>
+                    </div>
+                    <div class="row">
+                        <table id="dataTable" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Biding date</th>
+                                    <th>wage</th>
+                                    <th>Rating</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (RequestedList bider in post.RequestedLists.OrderBy(x => x.wage))
+                                {
+                                    <tr>
+                                        <td>@bider.requestedDate</td>
+                                        <td>@bider.wage</td>
+                                        <td>RATING</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="map" style="height: 400px;" class="col-md-6 ">
+
+                </div>
+            </div>
+        </div>
+        <!--//Job Desc-->
+    </div>
+</div>
+
+@* MODAL REPORT *@
+<div class="modal fade" id="modalPostReport" tabindex="-1" role="dialog" aria-labelledby="Post Report">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title" id="exampleModalLabel">Complaint this post</h3>
+                <i style="color:red;">NOTE: Your complaint will be submited to management to make the approval.</i>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                    @Html.HiddenFor(m => m.postedID)
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.reportType, new { Class = "control-label" })
+                            @Html.DropDownListFor(x => x.reportType, new SelectList(ViewBag.postReport, "settingStringShort", "settingStringShort"), new { Class = "form-control seachSelector" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.comment, new { Class = "control-label" })
+                            @Html.TextAreaFor(m => m.comment, new { maxlength = 500, Class = "form-control", placeholder = "Enter your comments" })
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Submit your feedback</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+@section footer{
+    <script>
+        function initMap() {
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 6,
+                center: { lat: 41.85, lng: -87.65 }
+            });
+            directionsDisplay.setMap(map);
+            calculateAndDisplayRoute(directionsService, directionsDisplay);
+            //document.getElementById('submit').addEventListener('click', function () {
+            //    calculateAndDisplayRoute(directionsService, directionsDisplay);
+            //});
+        }
+
+        function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+            waypts = [];
+
+            directionsService.route({
+                origin: "@self.address",
+                destination: "@post.workingAddress",
+                waypoints: waypts,
+                optimizeWaypoints: true,
+                travelMode: 'DRIVING'
+            }, function (response, status) {
+                if (status === 'OK') {
+                    directionsDisplay.setDirections(response);
+                    var route = response.routes[0];
+                    var summaryPanel = document.getElementById('directions-panel');
+                    summaryPanel.innerHTML = '';
+                    // For each route, display summary information.
+                    for (var i = 0; i < route.legs.length; i++) {
+                        var routeSegment = i + 1;
+                        summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+                            '</b><br>';
+                        summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+                        summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+                        summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+                    }
+                } else {
+                    window.alert('Directions request failed due to ' + status);
+                }
+            });
+        }
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbi_YnG0TT_9rn_74DIzmuSdW1CDb0q2Y&callback=initMap">
+    </script>
+}

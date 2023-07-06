@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewBag.Title = "List Job Category";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+    <style>
+        .table tr:hover td {
+            background-color: #999;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var table = $('#dataTable').DataTable();
+    });
+</script>
+<div class="forms">
+    <h2 class="title1">@ViewBag.Title</h2>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+
+            <div class="@TempData["color"]" style="text-align: center; font-weight:bold; font-size:20px; margin-bottom:10px">@TempData["info"]</div>
+
+            <button data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-edit"></i> Add Job Category</button>
+            <br>
+            <br>
+
+            <table id="dataTable" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Job Category</th>
+                        <th>Job Description</th>
+                        <th>Number Of Skill</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (JobCategory j in ViewBag.Jobs)
+                    {
+                        <tr data-url="/Admin/EditJob/@j.jobID">
+                            <td>@j.jobID</td>
+                            <td>
+                                @if (j.name.Length <= 20)
+                                {
+                                    @j.name
+                                }
+                                else
+                                {
+                                    @j.name.Substring(0, 20).Insert(20, " . . . . .");
+                                }
+                            </td>
+                            <td>
+                                @if (j.desc.Length > 50)
+                                {
+                                    @j.desc.Substring(0, 50).Insert(50, " . . . . .");
+                                }
+                                else
+                                {
+                                    @j.desc;
+                                }
+                            </td>
+                            <td>@j.Skills.Count()</td>
+                            <td>@j.status</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>ID</th>
+                        <th>Job Category</th>
+                        <th>Job Description</th>
+                        <th>Number Of Skill</th>
+                        <th>Status</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--/Add category-->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="text-center mb-4" style="font-size: 2.2em; font-family: 'Dosis', sans-serif; margin-bottom: 10px">New Job Category</h5>
+            </div>
+            <div class="modal-body">
+                <div class="login px-4 mx-auto mw-100">
+                    <div id="wrapper1">
+                        @Html.Partial("_AddJob")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--//Add category-->
+
+@section footer {
+}
+
+

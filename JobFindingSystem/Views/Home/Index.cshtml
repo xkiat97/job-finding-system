@@ -1,0 +1,840 @@
+﻿
+@{
+    /**/
+
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+    var setting = ViewBag.setting;
+    List<Post> post = ViewBag.post;
+    List<User> user = ViewBag.user;
+}
+
+@section header {
+    <link href="~/TemplateSources/HomeSources/css/zoomslider.css" rel='stylesheet' type='text/css' />
+}
+
+@section banner {
+    <!--/banner-info-w3layouts-->
+    <div class="banner-info-w3layouts text-center">
+
+        <h3>
+            <span>Find the Right Job.</span>
+            <span>Right Now.</span>
+        </h3>
+        <p>Your job search starts and ends with us.</p>
+
+        <form action="#" method="post" class="ban-form row">
+            <div class="col-md-3 banf">
+                <input class="form-control" type="text" name="Name" placeholder="Name" required="">
+            </div>
+            <div class="col-md-3 banf">
+                <select class="form-control" id="country12">
+                    <option value="0">Location</option>
+                    <option value="Johor">Johor</option>
+                    <option value="Kedah">Kedah</option>
+                    <option value="Kelantan">Kelantan</option>
+                    <option value="Kuala Lumpur">Kuala Lumpur</option>
+                    <option value="Melacca">Melacca</option>
+                    <option value="Negeri Sembilan">Negeri Sembilan</option>
+                    <option value="Pahang">Pahang</option>
+                    <option value="Penang">Penanag</option>
+                    <option value="Perak">Perak</option>
+                    <option value="Perlis">Perlis</option>
+                    <option value="Sabah">Sabah</option>
+                    <option value="Sarawak">Sarawak</option>
+                    <option value="Selangor">Selangor</option>
+                    <option value="Terengganu">Terengganu</option>
+
+                </select>
+            </div>
+            <div class="col-md-3 banf">
+                <select id="country13" class="form-control">
+                    <option>Finance Sector</option>
+                    <option>Banking Sector</option>
+                    <option> Engineering Sector</option>
+                    <option>Accounting Jobs</option>
+                    <option>Interior Design</option>
+                    <option>Export Import Jobs</option>
+                </select>
+
+            </div>
+            <div class="col-md-3 banf">
+                <button class="btn1" type="submit">
+                    FIND JOB
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+    <!--//banner-info-w3layouts-->
+}
+
+@section subNav {
+
+}
+
+@section footer {
+    <script src="~/TemplateSources/HomeSources/js/jquery.zoomslider.min.js"></script>
+}
+
+<!-- banner-bottom-wthree -->
+<section class="banner-bottom-wthree py-lg-5 py-md-5 py-3">
+    <div class="container">
+        <div class="inner-sec-w3ls py-lg-5  py-3">
+            <h3 class="tittle text-center mb-lg-4 mb-3">
+                <span>Our Mission</span>Popular Categories
+            </h3>
+            <div class="row populor_category_grids mt-5">
+                <div class="col-md-3 category_grid">
+                    <div class="view view-tenth">
+                        <div class="category_text_box">
+                            <i class="fas fa-bullhorn"></i>
+                            <h3> Multimedia</h3>
+                            <p>(34 open flow-positions)</p>
+                        </div>
+                        <div class="mask">
+                            <a href="#">
+                                <img src="~/TemplateSources/HomeSources/images/p1.jpg" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 category_grid">
+                    <div class="view view1 view-tenth">
+                        <div class="category_text_box">
+                            <i class="fas fa-graduation-cap"></i>
+                            <h3>Education</h3>
+                            <p>(22 open flow-positions)</p>
+                        </div>
+                        <div class="mask">
+                            <a href="#">
+                                <img src="~/TemplateSources/HomeSources/images/p2.jpg" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 category_grid">
+                    <div class="view view2 view-tenth">
+                        <div class="category_text_box">
+                            <i class="fab fa-accusoft"></i>
+                            <h3>House Keeping </h3>
+                            <p>(16 open flow-positions)</p>
+                        </div>
+                        <div class="mask">
+                            <a href="#">
+                                <img src="~/TemplateSources/HomeSources/images/p3.jpg" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 category_grid">
+                    <div class="view view3 view-tenth">
+                        <div class="category_text_box">
+                            <i class="fas fa-users"></i>
+                            <h3>Human Resource</h3>
+                            <p>(4 open flow-positions)</p>
+                        </div>
+                        <div class="mask">
+                            <a href="#">
+                                <img src="~/TemplateSources/HomeSources/images/p4.jpg" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 justify-content-center">
+                <div class="col-md-3 category_grid">
+                    <div class="view view4 view-tenth">
+                        <div class="category_text_box">
+                            <i class="fa fa-bicycle"></i>
+                            <h3>Sport Science </h3>
+                            <p>(8 open flow-positions)</p>
+                        </div>
+                        <div class="mask">
+                            <a href="#">
+                                <img src="~/TemplateSources/HomeSources/images/p4.jpg" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 category_grid">
+                    <div class="view view5 view-tenth">
+                        <div class="category_text_box">
+                            <i class="fa fa-briefcase"></i>
+                            <h3>Construction </h3>
+                            <p>(6 open flow-positions)</p>
+                        </div>
+                        <div class="mask">
+                            <a href="#">
+                                <img src="~/TemplateSources/HomeSources/images/p4.jpg" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--banner-bottom-wthree-->
+<!--/stats-->
+<section class="banner-bottom-wthree bg-dark dotts py-lg-5 py-3">
+    <div class="container">
+        <div class="inner-sec-w3ls py-lg-5  py-3">
+            <h3 class="tittle cen text-center mb-lg-5 mb-3">
+                <span>Some Info</span> Our Stats
+            </h3>
+            <div class="stats row mt-5">
+                <div class="col-md-3 stats_left counter_grid text-center">
+                    <div class="counter">
+                        <p class="counter-value" data-count="@post.Count()">0</p>
+                    </div>
+                    <h4>Jobs Posted</h4>
+                </div>
+                <div class="col-md-3 stats_left counter_grid1 text-center">
+
+                    <div class="counter">
+                        <p class="counter-value" data-count="@post.Count(x => x.postExpired > DateTime.Now && x.status != "completed" || x.status != "absent")">0</p>
+                    </div>
+                    <h4>Jobs Filled</h4>
+                </div>
+                <div class="col-md-3 stats_left counter_grid2 text-center">
+
+                    <div class="counter">
+                        <p class="counter-value" data-count="@user.Count(x => x.role == "Employer")">0</p>
+                    </div>
+                    <h4>Companies</h4>
+                </div>
+                <div class="col-md-3 stats_left counter_grid3 text-center">
+
+                    <div class="counter">
+                        <p class="counter-value" data-count="@user.Count(x => x.role == "Employee")">0</p>
+                    </div>
+                    <h4>Members</h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!--//stats-->
+<!--/process-->
+<section class="banner-bottom-wthree pb-lg-5 pb-md-4 pb-3">
+    <div class="container">
+        <div class="inner-sec-w3ls py-lg-5  py-3">
+            <!---728x90--->
+            <h3 class="tittle text-center mb-lg-4 mb-3">
+
+                <span>Some Info</span>Latest Job flow-positions
+            </h3>
+            <!---728x90--->
+            <div class="tabs mt-5">
+                <ul class="nav nav-pills my-4" id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Featured Jobs</a>
+                    </li>
+
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <div class="menu-grids mt-4">
+                            <div class="row t-in">
+                                <div class="col-lg-8 text-info-sec">
+
+                                    <!--/job4-->
+
+                                    <div class="job-post-main row mt-3">
+                                        <div class="col-md-9 job-post-info text-left">
+                                            <div class="job-post-icon">
+                                                <i class="fas fa-briefcase"></i>
+                                            </div>
+                                            <div class="job-single-sec">
+                                                <h4>
+                                                    <a href="#">
+                                                        Marketing Director
+                                                    </a>
+                                                </h4>
+                                                <p class="my-2">Technology Management Consulting</p>
+                                                <ul class="job-list-info d-flex">
+                                                    <li>
+                                                        <i class="fas fa-briefcase"></i> Rennes
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-map-marker-alt"></i> France
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-dollar-sign"></i> 300000 - 500000 / Annum
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="col-md-3 job-single-time text-right">
+                                            <span class="job-time">
+                                                <i class="far fa-heart"></i> Full Time
+                                            </span>
+                                            <a href="#" class="aply-btn ">Appy Now</a>
+                                        </div>
+                                    </div>
+                                    <!--//job4-->
+                                    <!--/job1-->
+
+                                    <div class="job-post-main row mt-3">
+                                        <div class="col-md-9 job-post-info text-left">
+                                            <div class="job-post-icon">
+                                                <i class="fas fa-briefcase"></i>
+                                            </div>
+                                            <div class="job-single-sec">
+                                                <h4>
+                                                    <a href="#">Developer for Site Maintenance </a>
+                                                </h4>
+                                                <p class="my-2">Company nName gose here</p>
+                                                <ul class="job-list-info d-flex">
+                                                    <li>
+                                                        <i class="fas fa-briefcase"></i> Comera
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-map-marker-alt"></i> California
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-dollar-sign"></i> 300000 - 500000 / Annum
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="col-md-3 job-single-time text-right">
+                                            <span class="job-time">
+                                                <i class="far fa-heart"></i> Part Time
+                                            </span>
+                                            <a href="#" class="aply-btn ">Appy Now</a>
+                                        </div>
+                                    </div>
+                                    <!--//job1-->
+                                    <!--/job2-->
+
+                                    <div class="job-post-main row my-3">
+                                        <div class="col-md-9 job-post-info text-left">
+                                            <div class="job-post-icon">
+                                                <i class="fas fa-briefcase"></i>
+                                            </div>
+                                            <div class="job-single-sec">
+                                                <h4>
+                                                    <a href="#">
+                                                        Content Writer and Speaker
+                                                    </a>
+                                                </h4>
+                                                <p class="my-2">Company Name goes here</p>
+                                                <ul class="job-list-info d-flex">
+                                                    <li>
+                                                        <i class="fas fa-briefcase"></i> Comera
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-map-marker-alt"></i> California
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-dollar-sign"></i> 200000 - 100000 / Annum
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="col-md-3 job-single-time text-right">
+                                            <span class="job-time">
+                                                <i class="far fa-heart"></i> Part Time
+                                            </span>
+                                            <a href="#" class="aply-btn ">Appy Now</a>
+                                        </div>
+                                    </div>
+                                    <!--//job2-->
+                                    <!--/job3-->
+
+                                    <div class="job-post-main row">
+                                        <div class="col-md-9 job-post-info text-left">
+                                            <div class="job-post-icon">
+                                                <i class="fas fa-briefcase"></i>
+                                            </div>
+                                            <div class="job-single-sec">
+                                                <h4>
+                                                    <a href="#">
+                                                        Web Designer / Developer
+                                                    </a>
+                                                </h4>
+                                                <p class="my-2">Company Name goes here</p>
+                                                <ul class="job-list-info d-flex">
+                                                    <li>
+                                                        <i class="fas fa-briefcase"></i> Chicago
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-map-marker-alt"></i> California
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-dollar-sign"></i> 300000 - 500000 / Annum
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="col-md-3 job-single-time text-right">
+                                            <span class="job-time">
+                                                <i class="far fa-heart"></i> Full Time
+                                            </span>
+                                            <a href="#" class="aply-btn ">Appy Now</a>
+                                        </div>
+                                    </div>
+                                    <!--//job3-->
+                                    <!--/job4-->
+
+                                    <div class="job-post-main row mt-3">
+                                        <div class="col-md-9 job-post-info text-left">
+                                            <div class="job-post-icon">
+                                                <i class="fas fa-briefcase"></i>
+                                            </div>
+                                            <div class="job-single-sec">
+                                                <h4>
+                                                    <a href="#">
+                                                        Marketing Director
+                                                    </a>
+                                                </h4>
+                                                <p class="my-2">Technology Management Consulting</p>
+                                                <ul class="job-list-info d-flex">
+                                                    <li>
+                                                        <i class="fas fa-briefcase"></i> Rennes
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-map-marker-alt"></i> France
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-dollar-sign"></i> 300000 - 500000 / Annum
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="col-md-3 job-single-time text-right">
+                                            <span class="job-time">
+                                                <i class="far fa-heart"></i> Full Time
+                                            </span>
+                                            <a href="#" class="aply-btn ">Appy Now</a>
+                                        </div>
+                                    </div>
+                                    <!--//job4-->
+                                </div>
+                                <div class="col-lg-4 text-info-sec">
+                                    <img src="~/TemplateSources/HomeSources/images/job-1.jpg" alt=" " class="img-fluid" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        <div class="menu-grids mt-4">
+                            <div class="row t-in">
+                                <div class="col-lg-4 text-info-sec">
+                                    <img src="~/TemplateSources/HomeSources/images/job-2.jpg" alt=" " class="img-fluid" />
+                                </div>
+                                <div class="col-lg-8 text-info-sec">
+                                    <!--/job1-->
+
+                                    <div class="job-post-main row">
+                                        <div class="col-md-9 job-post-info text-left">
+                                            <div class="job-post-icon">
+                                                <i class="fas fa-briefcase"></i>
+                                            </div>
+                                            <div class="job-single-sec">
+                                                <h4>
+                                                    <a href="#">Developer for Site Maintenance </a>
+                                                </h4>
+                                                <p class="my-2">Company nName gose here</p>
+                                                <ul class="job-list-info d-flex">
+                                                    <li>
+                                                        <i class="fas fa-briefcase"></i> Comera
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-map-marker-alt"></i> California
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-dollar-sign"></i> 300000 - 500000 / Annum
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="col-md-3 job-single-time text-right">
+                                            <span class="job-time">
+                                                <i class="far fa-heart"></i> Part Time
+                                            </span>
+                                            <a href="#" class="aply-btn ">Appy Now</a>
+                                        </div>
+                                    </div>
+                                    <!--//job1-->
+                                    <!--/job2-->
+
+                                    <div class="job-post-main row my-3">
+                                        <div class="col-md-9 job-post-info text-left">
+                                            <div class="job-post-icon">
+                                                <i class="fas fa-briefcase"></i>
+                                            </div>
+                                            <div class="job-single-sec">
+                                                <h4>
+                                                    <a href="#">
+                                                        Content Writer and Speaker
+                                                    </a>
+                                                </h4>
+                                                <p class="my-2">Company Name goes here</p>
+                                                <ul class="job-list-info d-flex">
+                                                    <li>
+                                                        <i class="fas fa-briefcase"></i> Comera
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-map-marker-alt"></i> California
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-dollar-sign"></i> 200000 - 100000 / Annum
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="col-md-3 job-single-time text-right">
+                                            <span class="job-time">
+                                                <i class="far fa-heart"></i> Part Time
+                                            </span>
+                                            <a href="#" class="aply-btn ">Appy Now</a>
+                                        </div>
+                                    </div>
+                                    <!--//job2-->
+                                    <!--/job3-->
+
+                                    <div class="job-post-main row">
+                                        <div class="col-md-9 job-post-info text-left">
+                                            <div class="job-post-icon">
+                                                <i class="fas fa-briefcase"></i>
+                                            </div>
+                                            <div class="job-single-sec">
+                                                <h4>
+                                                    <a href="#">
+                                                        Web Designer / Developer
+                                                    </a>
+                                                </h4>
+                                                <p class="my-2">Company Name goes here</p>
+                                                <ul class="job-list-info d-flex">
+                                                    <li>
+                                                        <i class="fas fa-briefcase"></i> Chicago
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-map-marker-alt"></i> California
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-dollar-sign"></i> 300000 - 500000 / Annum
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="col-md-3 job-single-time text-right">
+                                            <span class="job-time">
+                                                <i class="far fa-heart"></i> Full Time
+                                            </span>
+                                            <a href="#" class="aply-btn ">Appy Now</a>
+                                        </div>
+                                    </div>
+                                    <!--//job3-->
+                                    <!--/job4-->
+
+                                    <div class="job-post-main row mt-3">
+                                        <div class="col-md-9 job-post-info text-left">
+                                            <div class="job-post-icon">
+                                                <i class="fas fa-briefcase"></i>
+                                            </div>
+                                            <div class="job-single-sec">
+                                                <h4>
+                                                    <a href="#">
+                                                        Marketing Director
+                                                    </a>
+                                                </h4>
+                                                <p class="my-2">Technology Management Consulting</p>
+                                                <ul class="job-list-info d-flex">
+                                                    <li>
+                                                        <i class="fas fa-briefcase"></i> Rennes
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-map-marker-alt"></i> France
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-dollar-sign"></i> 300000 - 500000 / Annum
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="col-md-3 job-single-time text-right">
+                                            <span class="job-time">
+                                                <i class="far fa-heart"></i> Full Time
+                                            </span>
+                                            <a href="#" class="aply-btn ">Appy Now</a>
+                                        </div>
+                                    </div>
+                                    <!--//job4-->
+                                    <!--/job1-->
+
+                                    <div class="job-post-main row mt-3">
+                                        <div class="col-md-9 job-post-info text-left">
+                                            <div class="job-post-icon">
+                                                <i class="fas fa-briefcase"></i>
+                                            </div>
+                                            <div class="job-single-sec">
+                                                <h4>
+                                                    <a href="#">Developer for Site Maintenance </a>
+                                                </h4>
+                                                <p class="my-2">Company nName gose here</p>
+                                                <ul class="job-list-info d-flex">
+                                                    <li>
+                                                        <i class="fas fa-briefcase"></i> Comera
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-map-marker-alt"></i> California
+                                                    </li>
+                                                    <li>
+                                                        <i class="fas fa-dollar-sign"></i> 300000 - 500000 / Annum
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="col-md-3 job-single-time text-right">
+                                            <span class="job-time">
+                                                <i class="far fa-heart"></i> Part Time
+                                            </span>
+                                            <a href="#" class="aply-btn ">Appy Now</a>
+                                        </div>
+                                    </div>
+                                    <!--//job1-->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--//preocess-->
+<!--job -->
+<section class="banner-bottom-wthree mid py-lg-5 py-3">
+    <div class="container">
+        <div class="inner-sec-w3ls py-lg-5  py-3">
+            <div class="mid-info text-center pt-3">
+                <h3 class="tittle text-center cen mb-lg-5 mb-3">
+                    <span>Some Info</span>Make a Difference with Your Online Resume!
+                </h3>
+                <p></p>
+                <div class="resume">
+                    <a href="#" data-toggle="modal" data-target="#exampleModalCenter2">
+                        <i class="far fa-user"></i> Create Acccount
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!--//job -->
+<!--/candidates -->
+<section class="banner-bottom-wthree bg-light py-lg-5 py-3 text-center">
+    <div class="container">
+        <div class="inner-sec-w3ls py-lg-4 py-md-4 py-3">
+            <h3 class="tittle text-center mb-lg-5 mb-3">
+                <span>Some Info</span>Featured Candidates
+            </h3>
+            <div class="row mt-5">
+                <div class="col-lg-3 member-main text-center">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="member-img">
+                                <img src="~/TemplateSources/HomeSources/images/team1.jpg" alt=" " class="img-fluid rounded-circle">
+                            </div>
+                            <div class="member-info text-center py-lg-4 py-2">
+                                <h4>Mark Jackman</h4>
+
+                                <p class="my-4"> 
+                                    Have 20 years working experience in wiring and electronical related job.
+                                </p>
+                                <div class="mt-3 team-social text-center">
+
+                                    <ul class="social-icons text-center">
+                                        <li>
+                                            <a href="#">
+                                                <i class="fab fa-facebook-f"></i>
+                                            </a>
+                                        </li>
+                                        <li class="mx-3">
+                                            <a href="#">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fab fa-google-plus-g"></i>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 member-main text-center">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="member-img">
+                                <img src="~/TemplateSources/HomeSources/images/team2.jpg" alt=" " class="img-fluid rounded-circle">
+                            </div>
+                            <div class="member-info text-center py-lg-4 py-2">
+                                <h4>Janet Levine</h4>
+
+                                <p class="my-4">
+                                    Friendly, lovely and cheerful person. Love to have a good time with kids.
+
+                                </p>
+                                <div class="mt-3 team-social text-center">
+
+                                    <ul class="social-icons text-center">
+
+
+                                        <li>
+                                            <a href="#">
+                                                <i class="fab fa-facebook-f"></i>
+                                            </a>
+                                        </li>
+                                        <li class="mx-3">
+                                            <a href="#">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fab fa-google-plus-g"></i>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 member-main text-center">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="member-img">
+                                <img src="~/TemplateSources/HomeSources/images/team3.jpg" alt=" " class="img-fluid rounded-circle">
+                            </div>
+                            <div class="member-info text-center py-lg-4 py-2">
+                                <h4>Rickman Tan</h4>
+
+                                <p class="my-4">
+                                    AKA computer doctor. Have been working in IT field for 12 years.
+                                </p>
+                                <div class="mt-3 team-social text-center">
+
+                                    <ul class="social-icons text-center">
+
+
+                                        <li>
+                                            <a href="#">
+                                                <i class="fab fa-facebook-f"></i>
+                                            </a>
+                                        </li>
+                                        <li class="mx-3">
+                                            <a href="#">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fab fa-google-plus-g"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 member-main text-center">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="member-img">
+                                <img src="~/TemplateSources/HomeSources/images/team4.jpg" alt=" " class="img-fluid rounded-circle">
+                            </div>
+                            <div class="member-info text-center py-lg-4 py-2">
+                                <h4>Daniele Lee</h4>
+                                <p class="my-4">
+                                    Creative person who always look for somthing new. 
+                                </p>
+                                <div class="mt-3 team-social text-center">
+
+                                    <ul class="social-icons text-center">
+
+
+                                        <li>
+                                            <a href="#">
+                                                <i class="fab fa-facebook-f"></i>
+                                            </a>
+                                        </li>
+                                        <li class="mx-3">
+                                            <a href="#">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fab fa-google-plus-g"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--/candidates -->
+<script>
+    var a = 0;
+    $(window).scroll(function () {
+
+        var oTop = $('.counter').offset().top - window.innerHeight;
+        if (a == 0 && $(window).scrollTop() > oTop) {
+            $('.counter-value').each(function () {
+                var $this = $(this),
+                    countTo = $this.attr('data-count');
+                $({
+                    countNum: $this.text()
+                }).animate({
+                    countNum: countTo
+                },
+                    {
+                        duration: 2000,
+                        easing: 'swing',
+                        step: function () {
+                            $this.text(Math.floor(this.countNum));
+                        },
+                        complete: function () {
+                            $this.text(this.countNum);
+                            //alert('finished');
+                        }
+                    });
+            });
+            a = 1;
+        }
+    });
+</script>
+<!--//clients-->

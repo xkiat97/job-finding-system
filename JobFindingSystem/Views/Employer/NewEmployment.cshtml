@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewBag.Title = "New Employment";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    string calendar = ViewBag.calendar;
+}
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+
+    <link href="~/TemplateSources/Calendar/fullcalendar.min.css" rel="stylesheet" />
+    <link href="~/TemplateSources/Calendar/fullcalendar.print.css" rel="stylesheet" media='print' />
+
+    <style>
+        #calendar {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+    </style>
+}
+@* Calendar session *@
+<script src="~/TemplateSources/Calendar/moment.min.js"></script>
+<script src="~/TemplateSources/Calendar/jquery.min.js"></script>
+<script src="~/TemplateSources/Calendar/fullcalendar.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay,listMonth'
+            },
+            defaultDate: '@DateTime.Today.ToString("yyyy-MM-dd")',
+            navLinks: true, // can click day/week names to navigate views
+            businessHours: true, // display business hours
+            events: [
+                @Html.Raw(calendar)
+            //background for today date
+            {
+                start: '@DateTime.Today.ToString("yyyy-MM-dd")',
+                overlap: false,
+                rendering: 'background',
+                color: '#ff9f89'
+            }]
+        });
+
+    });
+</script>
+
+@* Datatable section *@
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]]
+        });
+    });
+</script>
+
+<div class="forms">
+    <h2 class="title1">@ViewBag.Title</h2>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <h4>Ongoing Job List</h4>
+        </div>
+        <table id="dataTable" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Employee name</th>
+                    <th>Employee phone</th>
+                    <th>Job title</th>
+                    <th>Working date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Post post in ViewBag.Posts)
+                {
+                    RequestedList rqst = post.RequestedLists.SingleOrDefault(x => x.status == "success");
+                    string imgUrlUSER = rqst.User.image ?? "../upload.png";
+                <tr>
+                    <td>
+                        <div class="row">
+                            <div class="col-lg-4"><img src="~/Photo/Profile/@imgUrlUSER" width="30" height="30" class="img-circle center-block"></div>
+                            <div class="col-lg-8">
+                                @rqst.User.userName
+                            </div>
+                        </div>
+                    </td>
+                    <td>@rqst.User.phone</td>
+                    <td>@post.jobTitle</td>
+                    <td>@post.workingDate</td>
+                    <td>
+                        @if (post.status == "reached")
+                        {
+                            <a href="~/Employer/WorkingDetail?postID=@rqst.requestedPostID&employeeID=@rqst.requestedEmployeeID" class="btn btn-success">Is arriving</a>
+                        }
+                        else
+                        {
+                            <a href="~/Employer/PostDetail?postID=@post.postID" class="btn btn-primary">On going</a>
+                        }
+                    </td>
+                </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Employee name</th>
+                    <th>Employee phone</th>
+                    <th>Job title</th>
+                    <th>Working date</th>
+                    <th>Action</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <h4>Schedules</h4>
+        </div>
+        <div class="form-body">
+            <div id='calendar'></div>
+        </div>
+    </div>
+</div>

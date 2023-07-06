@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="64bb25dc8a2546a2b8a4f03244fb76b7" Name="Diagram1" ZoomLevel="86" >
+        <EntityTypeShape EntityType="DBModel.JobCategory" Width="1.5" PointX="3.75" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Payment" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.PostFee" Width="1.5" PointX="8.25" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.PostReport" Width="1.5" PointX="11.25" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.RequestedList" Width="1.5" PointX="8.25" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Setting" Width="1.5" PointX="3" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Skill" Width="1.5" PointX="3" PointY="10.125" IsExpanded="true" />
+        <AssociationConnector Association="DBModel.FK_Skill_JobCategory" />
+        <EntityTypeShape EntityType="DBModel.Post" Width="1.5" PointX="6" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Rating" Width="1.5" PointX="11.25" PointY="13.875" IsExpanded="true" />
+        <AssociationConnector Association="DBModel.FK_Post_JobCategory" />
+        <AssociationConnector Association="DBModel.FK_PostFee_Post" />
+        <AssociationConnector Association="DBModel.FK_PostReport_Post" />
+        <AssociationConnector Association="DBModel.FK_Rating_Post" />
+        <AssociationConnector Association="DBModel.FK_RequestedList_Post" />
+        <EntityTypeShape EntityType="DBModel.Employee" Width="1.5" PointX="1.375" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.AccountFee" Width="1.5" PointX="2.875" PointY="17.375" />
+        <EntityTypeShape EntityType="DBModel.Conversation" Width="1.5" PointX="2.875" PointY="6.375" />
+        <EntityTypeShape EntityType="DBModel.User" Width="1.5" PointX="0.75" PointY="13.75" />
+        <AssociationConnector Association="DBModel.FK_AccountFee_User" />
+        <AssociationConnector Association="DBModel.FK_Conversation_User" />
+        <AssociationConnector Association="DBModel.FK_Conversation_User1" />
+        <AssociationConnector Association="DBModel.FK_Post_User" />
+        <AssociationConnector Association="DBModel.FK_PostReport_User" />
+        <AssociationConnector Association="DBModel.FK_Rating_User" />
+        <AssociationConnector Association="DBModel.FK_RequestedList_User" />
+        <AssociationConnector Association="DBModel.FK_Setting_User" />
+        <AssociationConnector Association="DBModel.FK_Skill_User" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

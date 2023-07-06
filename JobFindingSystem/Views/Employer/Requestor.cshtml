@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "Requestor";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        });
+    });
+</script>
+<div class="forms">
+    <div class="row">
+        <div class="col-md-2">
+            <h2 class="title1">@ViewBag.Title</h2>
+        </div>
+    </div>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <table id="dataTable" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Job title</th>
+                        <th>Posted on</th>
+                        <th>Bid close on</th>
+                        <th>Working date</th>
+                        <th>Post expired date</th>
+                        <th>Wage range (MYR)</th>
+                        <th>Expected wage (MYR)</th>
+                        <th>Bider</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Post post in ViewBag.Posts)
+                    {
+                        bool hasBider = post.RequestedLists != null;
+                    <tr>
+                        <td>@post.jobTitle</td>
+                        <td>@post.postedDate</td>
+                        <td>@post.workingDate.Value.AddDays(-(int)ViewBag.dayBeforeWork)</td>
+                        <td>@post.workingDate</td>
+                        <td>@post.postExpired</td>
+                        <td>
+                            @if (hasBider)
+                            {
+                                <text>
+                                    @post.RequestedLists.Min(x => x.wage)to
+                                    @post.RequestedLists.Max(x => x.wage)
+                                </text>
+                            }
+                            else
+                            {
+                                <text>No bider</text>
+                            }
+                        </td>
+                        <td>@post.wage</td>
+                        <td>@post.RequestedLists.Count()</td>
+                        <td><a href="~/Employer/PostDetail?postID=@post.postID" class="btn btn-primary">Employment</a></td>
+                    </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Job title</th>
+                        <th>Posted on</th>
+                        <th>Bid close on</th>
+                        <th>Working date</th>
+                        <th>Post expired date</th>
+                        <th>Wage range (MYR)</th>
+                        <th>Expected wage (MYR)</th>
+                        <th>Bider</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+@section footer {
+
+
+}

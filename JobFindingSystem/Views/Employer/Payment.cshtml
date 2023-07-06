@@ -1,0 +1,170 @@
+﻿
+@{
+    ViewBag.Title = "Payment";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+@section header{
+
+    <link href="~/Content/app.css" rel="stylesheet" />
+}
+<h2 class="title1">@ViewBag.Title</h2>
+<div class="form-grids row widget-shadow" data-example-id="basic-forms">
+    <div class="container">
+        <br><br>
+        <div class="row">
+            <div class="col-md-1">
+
+            </div>
+            <div class="col-md-4">
+                <div class="row" style="border: solid 1px; margin: 0px 30px 30px 30px; padding: 20px">
+
+                    <div class="col">
+                        <div class="row">Standard</div>
+                        <div class="row text-muted">Standard job advertisment.</div>
+                        <br>
+                        <div class="row text-muted">MYR 5/Day</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-4">
+
+                <div class="row" style="border: solid 1px; margin: 0px 30px 30px 30px; padding: 20px">
+
+                    <div class="col">
+                        <div class="row">Exclusive</div>
+                        <div class="row text-muted">The advertisment will display first before standard job advertisment.</div>
+                        <div class="row text-muted">MYR 8/Day</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="sel1">Package: </label>
+                    <select class="form-control" id="sel1">
+                        <option>Standard</option>
+                        <option>Excludive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-1">Duration: </div>
+            <div class="col-md-1"><input type="text" class="form-control" id="cvc"></div>
+
+        </div>
+        <div class="row"></div>
+
+        <div class="row">
+            <div class="col-md-4">
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <h4><strong>Total Payment: RM 20</strong></h4>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-2">
+                        Name:
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" id="usr">
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-1">
+                    Billing Address:
+                </div>
+                <div class="col-lg-5">
+                    <textarea class="form-control" cols="20" rows="3" id="comment"></textarea>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-1">
+                    Card Number:
+                </div>
+
+                <div class="col-lg-1">
+                    <input type="text" class="form-control" id="usr" maxlength="4">
+                </div>
+
+                <div class="col-lg-1">
+                    <input type="text" class="form-control" id="usr" maxlength="4">
+                </div>
+                <div class="col-lg-1">
+                    <input type="text" class="form-control" id="usr" maxlength="4">
+                </div>
+                <div class="col-lg-1">
+                    <input type="text" class="form-control" id="usr" maxlength="4">
+                </div>
+            </div>
+
+            <br />
+            <div class="row">
+                <div class="col-lg-1">
+                    CVC:
+                </div>
+                <div class="col-lg-1">
+                    <input type="text" class="form-control" id="cvc">
+                </div>
+                <div class="col-lg-1">
+                    Month:
+                </div>
+                <div class="col-lg-1">
+                    <input type="text" class="form-control" id="month">
+                </div>
+                <div class="col-lg-1">
+                    Year:
+                </div>
+                <div class="col-lg-1">
+                    <input type="text" class="form-control" id="year">
+                </div>
+            </div>
+            <br />
+        </div>
+
+
+
+    </div>
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-3">
+            <asp:Button ID="btnReset" runat="server" Text="Rest" CssClass="btn btn-outline-primary btn-block" />
+        </div>
+        <div class="col-lg-3">
+            <asp:Button ID="btnPay" runat="server" Text="Payment" CssClass="btn btn-primary btn-block" OnClick="btnPay_Click" />
+        </div>
+
+    </div>
+    <script src="~/Scripts/script.js"></script>
+    <br />
+    <script src="~/Content/app.js"></script>
+    <div class="price-info-grid col-lg-3">
+        <div class="price-inner">
+            <div class="price-header">
+                <h4>setting.settingStringShort</h4>
+            </div>
+            <div class="price-body">
+                <p class="p-dis text-left my-4">
+                    aaaaaaaaaaaaaaaaaaaaaa
+                    <br><br>
+                    Login to view details.
+                </p>
+                <a href="#" class="btn btn-block btn-outline-primary py-2" data-toggle="modal" data-target="#exampleModalCenter2">
+                    <i class="far fa-user"></i> Get Started
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

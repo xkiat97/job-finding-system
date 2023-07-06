@@ -1,0 +1,343 @@
+﻿
+@{
+    ViewBag.Title = "Employment detail";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    Post post = ViewBag.posts;
+    var rqsts = post.RequestedLists;
+    RequestedList rqst = rqsts.SingleOrDefault(x => x.status == "success");
+
+    string imgUrl = post.User.image ?? "../noImage.png";
+    string imgUrl1 = post.jobImage ?? "../upload.png";
+
+}
+@section header {
+    <link href="~/TemplateSources/DataTables/datatables.min.css" rel="stylesheet" />
+
+    <style>
+        .table tr:hover td {
+            background-color: #999;
+            font-weight: bold;
+        }
+    </style>
+}
+<script src="~/TemplateSources/DataTables/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "lengthMenu": [[5, 25, -1], [5, 25, "All"]]
+        });
+    });
+</script>
+<div class="forms">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="title1">@ViewBag.Title</h2>
+        </div>
+    </div>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="row col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                </div>
+            </div>
+            <!--Job Heading-->
+            <div class="row col-md-12 widget-shadow">
+                <br>
+                <div class="col-md-2">
+                    <img src="~/Photo/Post/@imgUrl1" class="img-thumbnail">
+                </div>
+                <br>
+                <div class="col-md-7">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4>@post.jobTitle</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <div class="glyphicon glyphicon-map-marker"></div>
+                        </div>
+                        <div class="col-md-7">
+                            <div>@post.workingAddress</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <div class="glyphicon glyphicon-calendar"></div>
+                        </div>
+                        <div class="col-md-7">
+                            @post.workingDate.Value.ToString("dd-MMMM-yyyy")
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <h6 style="color:#a6a6a6;">Posted on @post.postedDate</h6>
+                    </div>
+                    <div class="row">
+                        <div class="">MYR @post.wage/hr (Expected wage)</div>
+                    </div>
+                    <div class="row">
+                        <div class=""><strong>Status: </strong>@post.status</div>
+                    </div>
+                    <div class="row">
+                        <div class="glyphicon glyphicon-briefcase"> @post.JobCategory.name</div>
+                    </div>
+                </div>
+            </div>
+            <!--//Job Heading-->
+            <div class="row col-md-12 widget-shadow">
+                <div class="row">
+                    <div class="col-md-6">
+
+                        @* JOB DESC *@
+                        <br>
+                        <div class="row">
+                            <h4>Job Description</h4>
+                        </div>
+                        <div class="row">
+                            <p>@post.jobDesc</p>
+                        </div>
+                        @* &JOB DESC *@
+                    </div>
+
+                    <div class="col-md-6">
+                        @* WORKING DETAIL *@
+                        <br>
+                        <div class="row">
+                            <h4>Working time detail</h4>
+                        </div>
+                        <div class="row">
+                            <strong class="col-lg-4">Wage/Hr</strong>
+                            <div class="col-lg-8">MYR @rqst.wage (Bided wage)</div>
+                        </div>
+                        <div class="row">
+                            <strong class="col-lg-4">Total duration (hour) </strong>
+                            <div class="col-lg-8">@post.workingDuration.Value.ToString("0.00")</div>
+                        </div>
+                        <div class="row">
+                            <strong class="col-lg-4">Total wage (MYR) </strong>
+                            <div class="col-lg-8">@post.workingTotalWage.Value.ToString("0.00")</div>
+                        </div>
+                        @{
+                            Rating r = post.Ratings.SingleOrDefault(x => x.userID == rqst.requestedEmployeeID);
+                        }
+                        <div class="row">
+                            <strong class="col-lg-4">Employer's rating </strong>
+                            <div class="col-lg-8">@r.nOfFive</div>
+                        </div>
+                        <div class="row">
+                            <strong class="col-lg-4">Employer's comment </strong>
+                            <div class="col-lg-8">
+                                <p>
+                                    @for (int i = 1; i <= r.nOfFive; i++)
+                                    {
+                                        <span class="float-right"><i class="text-warning fa fa-star"></i></span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                        @* &WORKING DETAIL *@
+                    </div>
+                </div>
+            </div>
+
+            <div class="row col-md-12 widget-shadow">
+                <div class="row">
+                    @* Posting fee *@
+                    <div class="col-md-6">
+                        <br>
+                        <div class="row">
+                            <h4>Posting fee</h4>
+                        </div>
+                        <div class="row">
+                            <table class="table table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Purchase date</th>
+                                        <th>Post duration</th>
+                                        <th>Post fee</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (PostFee postFee in post.PostFees.OrderByDescending(x => x.paymentDate))
+                                    {
+                                        <tr>
+                                            <td>@postFee.paymentDate</td>
+                                            <td>@postFee.durationDay day(s)</td>
+                                            <td>RM @postFee.fee</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    @* &Posting fee *@
+
+                    @* Requested list *@
+                    <div class="col-md-6">
+                        <br>
+                        <div class="row">
+                            <h4>All biders</h4>
+                        </div>
+                        <div class="row">
+                            <table id="dataTable" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Biding date</th>
+                                        <th>Bider name</th>
+                                        <th>wage</th>
+                                        <th>Rating</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (RequestedList bider in post.RequestedLists)
+                                    {
+                                        string status = "";
+                                        if (bider.status == "success")
+                                        {
+                                            status = "alert alert-success";
+                                        }
+                                        else if (bider.status == "failed")
+                                        {
+                                            status = "alert alert-danger";
+                                        }
+
+                                    <tr class="@status">
+                                        <td>@bider.requestedDate</td>
+                                        <td>@bider.User.userName</td>
+                                        <td>@bider.wage</td>
+                                        @{
+                                            double NsumRate = bider.User.Ratings.Sum(x => x.nOfFive);
+                                            double NcountRate = bider.User.Ratings.Count() * 5;
+                                            double NemployeeRate = (NsumRate / NcountRate) * 5;
+
+                                            string Nrate = NemployeeRate.ToString("0");
+
+                                        }
+                                        <td>
+                                            <p>
+                                                @for (int i = 1; i <= int.Parse(Nrate); i++)
+                                                {
+                                                    <span class="float-right"><i class="text-warning fa fa-star"></i></span>
+                                                }
+                                            </p>
+                                        </td>
+                                        <td>
+                                            @if (bider.status == "success")
+                                            {
+                                                <span> SUCCESS </span>
+                                            }
+                                            else if (bider.status == "failed")
+                                            {
+                                                <span> FAILED </span>
+                                            }
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    @* &Requested list *@
+                </div>
+            </div>
+
+            <div class="row col-md-12 widget-shadow">
+                <div class="row">
+                    @* employer detail *@
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <br />
+                                <div class="row">
+                                    <h4>Employer detail</h4>
+                                </div>
+                                <div class="row">
+                                    <img src="~/Photo/Profile/@imgUrl" width="250" height="250" class="img-circle center-block">
+                                </div>
+                                <div class="row">
+                                    <strong class="col-lg-4">Name </strong>
+                                    <div class="col-lg-8">@post.User.userName</div>
+                                </div>
+                                <div class="row">
+                                    <strong class="col-lg-4">Contact </strong>
+                                    <div class="col-lg-8">@post.User.phone</div>
+                                </div>
+                                <div class="row">
+                                    <strong class="col-lg-4">Email </strong>
+                                    <div class="col-lg-8">@post.User.email</div>
+                                </div>
+                                <div class="row">
+                                    <strong class="col-lg-4">Post being reported</strong>
+                                    <div class="col-lg-8">@post.User.Posts.Count(x => x.status == "reported") over @post.User.Posts.Count(x => x.status == "completed")</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @* &employer detail *@
+
+                    @* employee detail *@
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <br />
+                                <div class="row">
+                                    <h4>Employee detail</h4>
+                                </div>
+                                <div class="row">
+                                    <img src="~/Photo/Profile/@imgUrl" width="250" height="250" class="img-circle center-block">
+                                </div>
+                                <div class="row">
+                                    <strong class="col-lg-4">Name </strong>
+                                    <div class="col-lg-8">@rqst.User.userName</div>
+                                </div>
+                                <div class="row">
+                                    <strong class="col-lg-4">Contact </strong>
+                                    <div class="col-lg-8">@rqst.User.phone</div>
+                                </div>
+                                <div class="row">
+                                    <strong class="col-lg-4">Email </strong>
+                                    <div class="col-lg-8">@rqst.User.email</div>
+                                </div>
+                                <div class="row">
+                                    <strong class="col-lg-4">Rating</strong>
+                                    @{
+                                        double sumRate = rqst.User.Ratings.Sum(x => x.nOfFive);
+                                        double countRate = rqst.User.Ratings.Count() * 5;
+                                        double employeeRate = (sumRate / countRate) * 5;
+
+                                        string rate = employeeRate.ToString("0");
+
+                                    }
+                                    <div class="col-lg-8">
+                                        <p>
+                                            @for (int i = 1; i <= int.Parse(rate); i++)
+                                            {
+                                                <span class="float-right"><i class="text-warning fa fa-star"></i></span>
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @* &employee detail *@
+                </div>
+            </div>
+
+            <div class="col-sm-8"></div>
+
+            <div class="col-sm-4" style="text-align: right; padding: 0;">
+                <button class="btn btn-default" data-url="/Admin/ListPost">Back to List</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+    @section footer{
+
+    }

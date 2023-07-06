@@ -1,0 +1,267 @@
+﻿@model JobFindingSystem.Models.EmployeeProfile
+@{
+    ViewBag.Title = "UpdateProfile";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    string imgUrl = Model.photoURL ?? "../upload.png";
+
+    SelectList phoneCode = new SelectList(new List<SelectListItem>
+    {
+        new SelectListItem { Selected = ("-1" == Model.PhoneCode) ? true : false, Text = "- Select One -"},
+        new SelectListItem { Selected = ("012" == Model.PhoneCode) ? true : false, Text = "012", Value = "012"},
+        new SelectListItem { Selected = ("016" == Model.PhoneCode) ? true : false, Text = "016", Value = "016"},
+        new SelectListItem { Selected = ("017" == Model.PhoneCode) ? true : false, Text = "017", Value = "017"},
+        new SelectListItem { Selected = ("018" == Model.PhoneCode) ? true : false, Text = "018", Value = "018"},
+        new SelectListItem { Selected = ("019" == Model.PhoneCode) ? true : false, Text = "019", Value = "019"},
+        new SelectListItem { Selected = ("011" == Model.PhoneCode) ? true : false, Text = "011", Value = "011"},
+    }, "Value", "Text", 1);
+}
+<div class="forms">
+    <h2 class="title1">@ViewBag.Title</h2>
+    <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+        <div class="form-title">
+            <h4>Employee Profile Information</h4>
+        </div>
+        <div class="form-body">
+            <div class="alert-success" role="alert">
+                <div class="@TempData["color"]" style="text-align: center; font-weight:bold; font-size:20px; margin-bottom:10px">@TempData["info"]</div>
+            </div>
+            <form method="post" enctype="multipart/form-data" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-2"></div>
+                    <label class="col-sm-3">
+                        @Html.TextBoxFor(m => m.Photo, new { type = "file", accept = "image/*", style = "display:none" })
+                        <img src="~/Photo/Profile/@imgUrl" width="200" height="200" id="prev">
+                    </label>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.Photo, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.name, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.name, new { maxlength = 50, required = "", autofocus = "", Class = "form-control1 col-sm-6", placeholder = "Enter your name" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.name, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.nric1, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(m => m.nric1, new { maxlength = 6, required = "", Class = "form-control1 col-sm-3", placeholder = "000000" })
+                    </div>
+                    <div class="col-sm-1">
+                        @Html.TextBoxFor(m => m.nric2, new { maxlength = 2, required = "", Class = "form-control1 col-sm-1", placeholder = "00" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.TextBoxFor(m => m.nric3, new { maxlength = 4, required = "", Class = "form-control1 col-sm-2", placeholder = "0000" })
+                    </div>
+
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.nric1, "", new { Class = "alert-danger" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.nric2, "", new { Class = "alert-danger" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.nric3, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.phone, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-2">
+                        @Html.DropDownListFor(m => m.PhoneCode, phoneCode, new { Class = "col-sm-2 form-control" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.phone, new { maxlength = 8, required = "", Class = "form-control col-sm-4", placeholder = "Enter your phone", title = "Phone number cannot be empty." })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.PhoneCode, "", new { Class = "alert-danger" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.phone, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @Html.PasswordFor(m => m.Password, new { maxLength = 20, required = "", autofocus = "", Class = "form-control1 col-sm-6", placeholder = "Enter your password before update your profile", title = "Current password must be entered to update profile." })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.Password, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NewPassword, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @Html.PasswordFor(m => m.NewPassword, new { maxLength = 20, Class = "form-control1 col-sm-6", placeholder = "Enter your new password" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.NewPassword, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.address, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.address, new { id = "autocomplete", maxlength = 250, required = "", Class = "form-control1 col-sm-6", placeholder = "Enter your address", onfocus = "geolocate()" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.address, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.gender, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <label class="col-sm-3">
+                        <div class="radio-inline">
+                            <label>@Html.RadioButtonFor(m => m.gender, "M", new { @checked = true }) Male</label>
+                        </div>
+                        <div class="radio-inline">
+                            <label> @Html.RadioButtonFor(m => m.gender, "F") Female</label>
+                        </div>
+                    </label>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.gender, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.DOB, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.DOB, "{0:yyyy-MM-dd}", new { maxlength = 20, Class = "form-control1 col-sm-6", type = "date" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.DOB, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.intro, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <div class="col-sm-6">
+                        @Html.TextAreaFor(m => m.intro, new { maxlength = 250, rows = "5", cols = "50", required = "", Class = "form-control1 col-sm-6", placeholder = "Enter your introduction about you. Max character: 250" })
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.intro, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.resume, new { Class = "col-sm-2 control-label", style = "text-align: left; font-weight: bold" })
+                    <label class="col-sm-3">
+                        @Html.TextBoxFor(m => m.resume, new { type = "file", accept = ".pdf,.doc,.docx" })
+                    </label>
+                    <div class="col-sm-4">
+                        @Html.ValidationMessageFor(m => m.resume, "", new { Class = "alert-danger" })
+                    </div>
+                </div>
+
+                <div class="col-sm-8"></div>
+                <div class="col-sm-12" style="margin-bottom: 20px; text-align: right">
+                    <button class="btn btn-dark" data-url="/Employee/UpdateProfile">Reset</button>
+                    <button class="btn btn-default" data-url="/Employee/EmployeeProfile">Back to Profile</button>
+                    <button class="btn btn-primary">Update</button>
+                </div>
+                <br>
+            </form>
+        </div>
+    </div>
+</div>
+@section footer {
+    <script>
+        // TODO: Enable validation on hidden inputs
+        $.validator.setDefaults({ ignore: "" });
+
+        var img = $("#prev")[0];
+        var src = img.src;
+
+        img.onerror = function () {
+            img.src = src;
+            $("#Photo").val("");
+        };
+
+        $("#Photo").change(function (e) {
+            var f = this.files[0];
+            img.src = f ? URL.createObjectURL(f) : "";
+        });
+    </script>
+
+    <%-- Google address searching --%>
+    <script>
+        // This example displays an address form, using the autocomplete feature
+        // of the Google Places API to help users fill in the information.
+
+        // This example requires the Places library. Include the libraries=places
+        // parameter when you first load the API. For example:
+        // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+        var placeSearch, autocomplete;
+        var componentForm = {
+            street_number: 'long_name',
+            route: 'long_name',
+            locality: 'long_name',
+            administrative_area_level_1: 'short_name',
+            country: 'long_name',
+            postal_code: 'short_name'
+        };
+
+        function initAutocomplete() {
+            // Create the autocomplete object, restricting the search to geographical
+            // location types.
+            autocomplete = new google.maps.places.Autocomplete(
+                    /** @@type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+                { types: ['geocode'] });
+
+            // When the user selects an address from the dropdown, populate the address
+            // fields in the form.
+            autocomplete.addListener('place_changed', fillInAddress);
+        }
+
+        function fillInAddress() {
+            // Get the place details from the autocomplete object.
+            var place = autocomplete.getPlace();
+
+            for (var component in componentForm) {
+                $('.' + component).val("");
+            }
+
+            // Get each component of the address from the place details
+            // and fill the corresponding field on the form.
+            console.log(place.address_components);
+            for (var i = 0; i < place.address_components.length; i++) {
+                var addressType = place.address_components[i].types[0];
+                if (componentForm[addressType]) {
+                    var val = place.address_components[i][componentForm[addressType]];
+                    $('.' + addressType).val(val);
+                }
+            }
+        }
+
+        // Bias the autocomplete object to the user's geographical location,
+        // as supplied by the browser's 'navigator.geolocation' object.
+        function geolocate() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var geolocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    var circle = new google.maps.Circle({
+                        center: geolocation,
+                        radius: position.coords.accuracy
+                    });
+                    autocomplete.setBounds(circle.getBounds());
+                });
+            }
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbi_YnG0TT_9rn_74DIzmuSdW1CDb0q2Y&libraries=places&callback=initAutocomplete"
+            async defer></script>
+}
